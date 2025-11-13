@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BicycleParts - Vehículos de Alta Gama</title>
+    <title>BicycleParts</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="./img/logoFan.png   ">
     <style>
@@ -26,12 +26,82 @@
                     top: 0;
                     left: 0;
                     width: 100%;
-                    
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.9);
+                    z-index: 1000;
+                    overflow-y: auto;
+                }
+
+                .product-modal.active {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .modal-content {
+                    background: var(--dark);
+                    width: 90%;
+                    max-width: 1200px;
+                    margin: 20px;
+                    border-radius: 10px;
+                    position: relative;
+                    display: flex;
+                    gap: 30px;
+                    padding: 30px;
+                }
+
+                .modal-image {
+                    flex: 1;
+                    max-width: 600px;
+                }
+
+                .modal-image img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 8px;
+                }
+
+                .modal-details {
                     flex: 1;
                     color: var(--light);
                 }
 
-                
+                .modal-close {
+                    position: absolute;
+                    top: 20px;
+                    right: 20px;
+                    background: none;
+                    border: none;
+                    color: var(--light);
+                    font-size: 24px;
+                    cursor: pointer;
+                    z-index: 10;
+                }
+
+                .modal-close:hover {
+                    color: var(--secondary);
+                }
+
+                .modal-details h2 {
+                    font-size: 32px;
+                    margin-bottom: 20px;
+                }
+
+                .modal-price {
+                    font-size: 2em;
+                    color: var(--secondary);
+                    margin: 20px 0;
+                }
+
+                .modal-description {
+                    margin: 20px 0;
+                    line-height: 1.6;
+                }
+
+                .specs-list {
+                    list-style: none;
+                    margin: 20px 0;
+                }
 
                 .specs-list li {
                     margin: 10px 0;
@@ -645,39 +715,6 @@
                 .logo span {
                     color: var(--secondary);
                 }
-
-                .logo-img {
-                    width: 36px;
-                    height: 36px;
-                    object-fit: contain;
-                    margin-right: 8px;
-                    border-radius: 4px;
-                }
-
-                /* Language switcher */
-                .lang-switcher {
-                    display: flex;
-                    gap: 6px;
-                    align-items: center;
-                    margin-left: 12px;
-                }
-
-                .lang-switcher button {
-                    background: transparent;
-                    border: 1px solid rgba(255,255,255,0.08);
-                    color: var(--light);
-                    padding: 6px 8px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-weight: 600;
-                    font-size: 13px;
-                }
-
-                .lang-switcher button.active {
-                    background: var(--secondary);
-                    color: var(--primary);
-                    border-color: transparent;
-                }
         
                 nav ul {
                     display: flex;
@@ -885,6 +922,20 @@
                     bottom: -10px;
                     left: 50%;
                     transform: translateX(-50%);
+                }
+
+                /* Wide section title variant: full-width bar and block behavior */
+                .section-title.wide h2 {
+                    display: block;
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .section-title.wide h2::after {
+                    left: 0;
+                    transform: none;
+                    width: 100%;
+                    height: 3px;
                 }
         
                 /* Vehículos Section */
@@ -1103,6 +1154,12 @@
 
                 .social-menu.active {
                     right: 20px;
+                }
+
+                .social-menu .main {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5em;
                 }
 
                 .toggle-btn {
@@ -1591,7 +1648,7 @@
                     }
             
                     /* Social Menu Mobile Optimization */
-                    .social-menu {
+                    /*.social-menu {
                         position: fixed;
                         bottom: 20px;
                         right: 20px;
@@ -1632,7 +1689,7 @@
                         width: 60px;
                         height: 60px;
                         margin: 5px;
-                    }
+                    }*/
             
                     /* Footer */
                     footer {
@@ -1788,13 +1845,13 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 10px 16px;
-        font-size: 15px;
+        padding: 8px 12px;
+        font-size: 12px;
         background: rgba(27, 253, 156, 0.08);
         border: 1px solid rgba(27, 253, 156, 0.14);
         color: var(--light);
         border-radius: 8px;
-        min-width: 90px;
+        min-width: auto;
         text-align: center;
     }
 
@@ -1827,6 +1884,13 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     width: 100%;
+}
+
+/* Ensure section titles placed inside the catalog grid span full width and are centered */
+.catalogo-grid .section-title {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin: 10px 0 20px;
 }
 
 .catalogo-grid .vehicle-card {
@@ -1909,6 +1973,255 @@
   .catalogo-grid .vehicle-info .price {
     font-size: 1rem;
   }
+}
+
+/* Estilos para Servicios */
+.services-section {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: 60px 0;
+}
+
+.services-hero {
+    text-align: center;
+    margin-bottom: 50px;
+    background: rgba(57, 255, 20, 0.05);
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(57, 255, 20, 0.1);
+}
+
+.services-hero h3 {
+    font-size: 2.5rem;
+    color: #39FF14;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+.services-hero p {
+    font-size: 1.1rem;
+    color: #ccc;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.service-card {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 30px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.service-card:hover::before {
+    left: 100%;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: #39FF14;
+    box-shadow: 0 10px 30px rgba(57, 255, 20, 0.2);
+}
+
+.service-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #39FF14, #7CFC00);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000;
+}
+
+.service-card h4 {
+    font-size: 1.4rem;
+    color: #39FF14;
+    margin-bottom: 15px;
+}
+
+.service-card p {
+    color: #bbb;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.service-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.service-card ul li {
+    color: #999;
+    margin-bottom: 10px;
+    padding-left: 0;
+    font-size: 0.95rem;
+}
+
+.service-card ul li:before {
+    content: '✓ ';
+    color: #39FF14;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.services-info {
+    background: rgba(57, 255, 20, 0.08);
+    padding: 50px;
+    border-radius: 15px;
+    border: 1px solid rgba(57, 255, 20, 0.15);
+    margin-bottom: 60px;
+}
+
+.services-info h3 {
+    font-size: 2rem;
+    color: #39FF14;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.info-item {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.info-item h5 {
+    font-size: 1.2rem;
+    color: #39FF14;
+    margin-bottom: 12px;
+}
+
+.info-item p {
+    color: #999;
+    line-height: 1.6;
+}
+
+.cta-services {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(57, 255, 20, 0.15), rgba(124, 252, 0, 0.1));
+    padding: 60px 40px;
+    border-radius: 15px;
+    border: 2px solid #39FF14;
+}
+
+.cta-services h3 {
+    font-size: 2rem;
+    color: #39FF14;
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+}
+
+.cta-services p {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+.cta-services .btn {
+    background: linear-gradient(135deg, #39FF14, #7CFC00);
+    color: #000;
+    font-weight: bold;
+    padding: 15px 40px;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.cta-services .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+}
+
+@media (max-width: 768px) {
+    .services-hero h3 {
+        font-size: 1.8rem;
+    }
+
+    .services-hero p {
+        font-size: 0.95rem;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .service-card {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .service-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .service-card h4 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .service-card p {
+        font-size: 0.8rem;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    .service-card ul li {
+        font-size: 0.75rem;
+        margin-bottom: 6px;
+    }
+
+    .services-info {
+        padding: 30px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .services-info h3 {
+        font-size: 1.5rem;
+    }
+
+    .cta-services {
+        padding: 40px 20px;
+    }
+
+    .cta-services h3 {
+        font-size: 1.5rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -2064,18 +2377,11 @@ function toggleMenu() {
 
 </script>
 <script>
-document.querySelector('.mobile-menu').addEventListener('click', () => {
-  document.querySelector('nav ul').classList.toggle('active');
-});
-
-document.querySelectorAll('nav ul li a').forEach(link => {
-  link.addEventListener('click', e => {
-    const parent = e.target.closest('li');
-    if (parent.querySelector('.dropdown-menu')) {
-      e.preventDefault();
-      parent.classList.toggle('active');
-    }
-  });
+// Register handlers after DOM is ready to avoid null references when scripts are in the head
+document.addEventListener('DOMContentLoaded', function(){
+    document.querySelector('.mobile-menu')?.addEventListener('click', () => {
+        document.querySelector('nav ul')?.classList.toggle('active');
+    });
 });
 </script>
 
@@ -2148,36 +2454,23 @@ document.querySelectorAll('nav ul li a').forEach(link => {
         </div>
         <header>
             <div class="container header-container">
-                                <a href="#" class="logo" onclick="showPage('inicio')">   <img src="./img/logoFan.png" alt="Logo" class="logo-img">BICYCLE<span>PARTS</span></a>
-                                <div class="lang-switcher" aria-label="Language selector">
-                                        <button class="lang-btn" data-lang="es" data-active="true">ES</button>
-                                        <button class="lang-btn" data-lang="en">EN</button>
-                                </div>
-                             <div class="mobile-menu" onclick="toggleMenu()">
-    <i class="fas fa-bars"></i>
+                <a href="#" class="logo" onclick="showPage('inicio')">   <img src="./img/logoFan.png" alt="Logo" class="logo-img">BICYCLE<span>PARTS</span></a>
+               <div class="mobile-menu" onclick="toggleMenu()">
+  <i class="fas fa-bars"></i>
 </div>
+                             <!-- Language selector -->
+                             <div class="lang-switcher" style="display:flex;gap:8px;align-items:center;margin-left:12px;">
+                                     <button id="lang-es" class="lang-btn" data-lang="es" aria-label="Español" style="background:#39FF14;border:1px solid #39FF14;color:#000000;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;">ES</button>
+                                     <button id="lang-en" class="lang-btn" data-lang="en" aria-label="English" onclick="window.location.href='./ingles.html';" style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:var(--light);padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;">EN</button>
+                             </div>
                 <nav>
                     <ul>
-                        <li><a href="javascript:void(0);" onclick="showPage('inicio')" data-i18n="nav.home">Inicio</a></li>
-                        <li>
-                            <a href="javascript:void(0)" class="has-dropdown" data-i18n="nav.gw">GW <i class="fas fa-chevron-down"></i></a>
-                            <div class="dropdown-menu">
-                                <a href="javascript:void(0)" onclick="showPage('gw-montana')" data-i18n="nav.route">Ruta</a>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" class="has-dropdown" data-i18n="nav.classic">Classic <i class="fas fa-chevron-down"></i></a>
-                            <div class="dropdown-menu">
-                                <a href="javascript:void(0)" onclick="showPage('trek-montana')" data-i18n="nav.route">Ruta</a>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)" class="has-dropdown" data-i18n="nav.kids">Kids <i class="fas fa-chevron-down"></i></a>
-                            <div class="dropdown-menu">
-                                <a href="javascript:void(0)" onclick="showPage('specialized-montana')" data-i18n="nav.route">Ruta</a>
-                            </div>
-                        </li>
-                        <li><a href="javascript:void(0);" onclick="showPage('catalogo')" data-i18n="nav.catalog">Catálogo</a></li>
+                        <li><a href="javascript:void(0);" onclick="showPage('inicio')">Inicio</a></li>
+                        <li><a href="javascript:void(0);" onclick="showPage('gw-montana')">GW</a></li>
+                        <li><a href="javascript:void(0);" onclick="showPage('trek-montana')">Classic</a></li>
+                        <li><a href="javascript:void(0);" onclick="showPage('specialized-montana')">Kids</a></li>
+                        <li><a href="javascript:void(0);" onclick="showPage('catalogo')">Catálogo</a></li>
+                        <li><a href="javascript:void(0);" onclick="showPage('servicios')">Servicios</a></li>
                         <!--<li><a href="#" onclick="showPage('bicicletas')">Bicicletas</a></li>
                         <li><a href="#" onclick="showPage('motos')">Motos</a></li>
                         <li><a href="#" onclick="showPage('ofertas')">Ofertas</a></li>
@@ -2192,9 +2485,9 @@ document.querySelectorAll('nav ul li a').forEach(link => {
         <!-- Sección Hero -->
         <section class="hero">
             <div class="container hero-content">
-                <h1 data-i18n="hero.title">BICICLETAS DE ALTA GAMA</h1>
-                <p data-i18n="hero.desc">Descubre la excelencia en bicicletas de montaña y ruta: GW, Classic, Kids y más</p>
-                <a href="#vehiculos" class="btn" data-i18n="hero.cta" onclick="event.preventDefault(); document.getElementById('vehiculos').scrollIntoView({ behavior: 'smooth' });">Explorar Colección</a>
+                <h1>BICICLETAS DE ALTA GAMA</h1>
+                <p>Descubre la excelencia en bicicletas de montaña y ruta: GW, Classic, Kids y más</p>
+                <a href="#vehiculos" class="btn" onclick="event.preventDefault(); document.getElementById('vehiculos').scrollIntoView({ behavior: 'smooth' });">Explorar Colección</a>
             </div>
         </section>
 
@@ -2202,8 +2495,8 @@ document.querySelectorAll('nav ul li a').forEach(link => {
         <section class="vehicles" id="vehiculos">
             <div class="container">
                 <div class="section-title">
-                    <h2 data-i18n="section.featured.title">Bicicletas Destacadas</h2>
-                    <p data-i18n="section.featured.desc">Selección exclusiva de las mejores bicicletas del mercado</p>
+                    <h2>Bicicletas Destacadas</h2>
+                    <p>Selección exclusiva de las mejores bicicletas del mercado</p>
                 </div>
                 
                 <div class="vehicles-grid">
@@ -2216,22 +2509,22 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             <h3>GW 060739</h3>
                             <div class="price">$1,299</div>
                             <div class="features">
-                                <span><i class="fas fa-cog"></i> 27 Vel</span>
-                                <span><i class="fas fa-weight"></i> 12.5 kg</span>
+                                <span><i class="fas fa-cog"></i> 2 Vel</span>
+                                <span><i class="fas fa-weight"></i> 7 kg</span>
                                 <span><i class="fas fa-mountain"></i> MTB</span>
                             </div>
-                            <p>Bicicleta de montaña con cuadro de aluminio ultraligero y suspensión delantera hidráulica.</p>
+                            <p>Perfecta para quienes disfrutan el camino, no solo la meta.</p>
                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/ABLANCOAMARILLO.png',
                                 'GW 060739',
                                 '$1,299',
-                                'Bicicleta de montaña de alto rendimiento con cuadro de aluminio ultraligero y suspensión delantera hidráulica. Perfecta para terrenos exigentes y rutas técnicas.',
+                                'Perfecta para quienes disfrutan el camino, no solo la meta.',
                                 [
-                                    {icon: 'fas fa-cog', text: '27 Velocidades Shimano'},
-                                    {icon: 'fas fa-weight', text: '12.5 kg - Cuadro Ultraligero'},
+                                    {icon: 'fas fa-cog', text: '2 Velocidades Shimano'},
+                                    {icon: 'fas fa-weight', text: '7 kg - Cuadro Ultraligero'},
                                     {icon: 'fas fa-mountain', text: 'MTB - Suspensión Hidráulica'},
-                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas disponibles: S, M, L, XL'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de Disco Hidráulicos'},
+                
+                                    
                                     {icon: 'fas fa-bicycle', text: 'Neumáticos Todo Terreno 27.5 pulgadas'}
                                 ],[
                                     {name: 'Blanco', image: './img/ABLANCOAMARILLO.png', swatch: '#FFFFFF'},
@@ -2254,22 +2547,21 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             <h3>CLASSIC 060748</h3>
                             <div class="price">$2,499</div>
                             <div class="features">
-                                <span><i class="fas fa-cog"></i> 12 Vel</span>
-                                <span><i class="fas fa-weight"></i> 11.8 kg</span>
+                                <span><i class="fas fa-cog"></i> 2 Vel</span>
+                                <span><i class="fas fa-weight"></i> 8 kg</span>
                                 <span><i class="fas fa-mountain"></i> Trail</span>
                             </div>
-                            <p>Bicicleta de trail con cuadro de carbono OCLV, suspensión RockShox y transmisión SRAM GX Eagle.</p>
+                            <p>Rueda con clase, pedalea con calma.</p>
                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/DBLANCO.png',
                                 'CLASSIC 060748',
                                 '$327,000',
-                                'Bicicleta clásica con diseño retro y acabados premium. Un verdadero ícono del ciclismo urbano.',
+                                'Rueda con clase, pedalea con calma.',
                                 [
-                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 21 velocidades'},
-                                    {icon: 'fas fa-weight', text: 'Peso: 11.5 kg'},
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 8 kg'},
                                     {icon: 'fas fa-bicycle', text: 'Diseño clásico retro'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de disco mecánicos'},
-                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas: S, M, L'}
+                                    
                                 ],
                                 [
                                     {name: 'Salmón', image: './img/DSALMON.png', swatch: '#FFB5A7'},
@@ -2291,22 +2583,20 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             <h3>KIDS 060355</h3>
                             <div class="price">$3,299</div>
                             <div class="features">
-                                <span><i class="fas fa-cog"></i> 22 Vel</span>
-                                <span><i class="fas fa-weight"></i> 6.8 kg</span>
+                                <span><i class="fas fa-cog"></i> 2 Vel</span>
+                                <span><i class="fas fa-weight"></i> 6 kg</span>
                                 <span><i class="fas fa-road"></i> Ruta</span>
                             </div>
-                            <p>Bicicleta de ruta profesional con cuadro de carbono FACT 12r y grupo Shimano Dura-Ace Di2.</p>
+                            <p>Pedalea suave, rueda con estilo. ¡Tu bicicleta de los sueños!.</p>
                              <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/ABLANCOAMARILLO.png',
                                 'GW 060747',
                                 '$280,000',
-                                'Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.',
+                                'Pedalea suave, rueda con estilo.    ¡Tu bicicleta de los sueños!.',
                                 [
-                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 22 velocidades'},
-                                    {icon: 'fas fa-weight', text: 'Peso: 11.9 kg'},
-                                    {icon: 'fas fa-mountain', text: 'Suspensión delantera aire'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de disco hidráulicos'},
-                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas: M, L, XL'}
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 6 kg'},
+                                    
                                 ],
                                 [
                                     {name: 'Celeste', image: './img/ECELESTE.png', swatch: '#7FDFFF'},
@@ -2348,22 +2638,22 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             <h3>GW 060739</h3>
                             <div class="price">$1,299</div>
                             <div class="features">
-                                <span><i class="fas fa-cog"></i> 27 Vel</span>
-                                <span><i class="fas fa-weight"></i> 12.5 kg</span>
+                                <span><i class="fas fa-cog"></i> 3 Vel</span>
+                                <span><i class="fas fa-weight"></i> 10 kg</span>
                                 <span><i class="fas fa-mountain"></i> MTB</span>
                             </div>
-                            <p>Bicicleta de montaña con cuadro de aluminio ultraligero y suspensión delantera hidráulica.</p>
+                            <p>Domina el camino con estilo. Ligera, ágil y lista para la aventura.
+Ideal para quien busca diversión sobre dos ruedas.</p>
                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/ABLANCOAMARILLO.png',
                                 'GW 060739',
                                 '$1,299',
-                                'Bicicleta de montaña premium con tecnología de vanguardia. Diseñada para el máximo rendimiento en terrenos exigentes.',
+                                'Domina el camino con estilo. Ligera, ágil y lista para la aventura. Ideal para quien busca diversión sobre dos ruedas.',
                                 [
                                     {icon: 'fas fa-bicycle', text: 'Cuadro de Aluminio Ultraligero'},
-                                    {icon: 'fas fa-cog', text: 'Transmisión Shimano 27 velocidades'},
-                                    {icon: 'fas fa-weight', text: 'Peso: 12.5 kg'},
-                                    {icon: 'fas fa-mountain', text: 'Suspensión Delantera Hidráulica'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de Disco Hidráulicos'},
+                                    {icon: 'fas fa-cog', text: 'Transmisión Shimano 3 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 10.5 kg'},
+                                    
                                     {icon: 'fas fa-ruler-vertical', text: 'Tallas: S, M, L, XL'}
                                 ],
                                 [
@@ -2386,21 +2676,21 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             <h3>GW 060728</h3>
                             <div class="price">$280,000</div>
                             <div class="features">
-                                <span><i class="fas fa-tachometer-alt"></i> 340 km/h</span>
-                                <span><i class="fas fa-bolt"></i> 720 CV</span>
-                                <span><i class="fas fa-car"></i> V8 Turbo</span>
+                               <span><i class="fas fa-cog"></i> 5 Vel</span>
+                                <span><i class="fas fa-weight"></i> 12.5 kg</span>
+                                <span><i class="fas fa-mountain"></i> MTB</span>
                             </div>
-                            <p>El heredero del 488 GTB con mejoras aerodinámicas y mayor potencia.</p>
+                            <p>Pura adrenalina y elegancia. Velocidad que emociona, diseño que impresiona.
+Para los que exigen máximo rendimiento.</p>
                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/ABLANCOAMARILLO.png',
                                 'GW 060728',
                                 '$280,000',
-                                'Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.',
+                                'Pura adrenalina y elegancia. Velocidad que emociona, diseño que impresiona. Para los que exigen máximo rendimiento.',
                                 [
-                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 22 velocidades'},
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 5 velocidades'},
                                     {icon: 'fas fa-weight', text: 'Peso: 11.9 kg'},
-                                    {icon: 'fas fa-mountain', text: 'Suspensión delantera aire'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de disco hidráulicos'},
+                                   
                                     {icon: 'fas fa-ruler-vertical', text: 'Tallas: M, L, XL'}
                                 ],
                                 [
@@ -2423,22 +2713,22 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             <h3>GW 060750</h3>
                             <div class="price">$247,000</div>
                             <div class="features">
-                                <span><i class="fas fa-tachometer-alt"></i> 320 km/h</span>
-                                <span><i class="fas fa-bolt"></i> 620 CV</span>
-                                <span><i class="fas fa-car"></i> V8 Turbo</span>
+                       <span><i class="fas fa-cog"></i> 5 Vel</span>
+                                <span><i class="fas fa-weight"></i> 12.5 kg</span>
+                                <span><i class="fas fa-mountain"></i> MTB</span>
                             </div>
-                            <p>Elegante coupé que representa el concepto de "Dolce Vita".</p>
+                            <p>Estilo y sofisticación en cada curva. Conduce la "Dolce Vita" sobre ruedas.
+Elegancia que conquista miradas.".</p>
                             
                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/CBLANCO.png',
                                 'GW 060750',
                                 '$247,000',
-                                'Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.',
+                                'Estilo y sofisticación en cada curva. Conduce la Dolce Vita sobre ruedas. Elegancia que conquista miradas..',
                                 [
-                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 22 velocidades'},
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 5 velocidades'},
                                     {icon: 'fas fa-weight', text: 'Peso: 11.9 kg'},
-                                    {icon: 'fas fa-mountain', text: 'Suspensión delantera aire'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de disco hidráulicos'},
+                                 
                                     {icon: 'fas fa-ruler-vertical', text: 'Tallas: M, L, XL'}
                                 ],
                                 [
@@ -2451,7 +2741,119 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             )">Consultar</button>
                         </div>
                     </div>
+                      <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="imgCiclas/z5.png" alt="Ferrari Roma">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Bicicleta MTB 26P 3X6 Vel Suspension Travel GW 060765</h3>
+                            <div class="price">$ 520.000</div>
+                            <div class="features">
+                       <span><i class="fas fa-cog"></i> 5 Vel</span>
+                                <span><i class="fas fa-weight"></i> 12.5 kg</span>
+                                <span><i class="fas fa-mountain"></i> MTB</span>
+                            </div>
+                            <p>Domina el asfalto. Tu nueva máquina de velocidad, diseñada para volar.</p>
+                            
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                                './img/CBLANCO.png',
+                                'Bicicleta MTB 26P 3X6 Vel Suspension Travel GW 060750',
+                                '$520,000',
+                                'Domina el asfalto. Tu nueva máquina de velocidad, diseñada para volar..',
+                                [
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 5 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 11.9 kg'},
+                                 
+                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas: M, L, XL'}
+                                ],
+                                [
+                                    {name: 'Azul', image: './imgCiclas/z6.png', swatch: '#0000FF'},
+{name: 'Gris', image: './imgCiclas/z5.png', swatch: '#808080'},
+{name: 'Negro', image: './imgCiclas/z7.png', swatch: '#000000'},
+{name: 'Verde Neón', image: './imgCiclas/z8.png', swatch: '#39FF14'},
+{name: 'Rojo', image: './imgCiclas/z9.png', swatch: '#FF0000'},
+{name: 'Blanco', image: './imgCiclas/z10.png', swatch: '#FFFFFF'}
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+                     <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="imgCiclas/z12.png" alt="Ferrari Roma">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Bicicleta MTB 29P Monkey Aluminio GW 060750</h3>
+                            <div class="price">$720,000</div>
+                            <div class="features">
+                       <span><i class="fas fa-cog"></i> 5 Vel</span>
+                                <span><i class="fas fa-weight"></i> 12.5 kg</span>
+                                <span><i class="fas fa-mountain"></i> MTB</span>
+                            </div>
+                            <p>La aventura te espera. Diseñada para la exploración en caminos diversos.".</p>
+                            
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                                './img/CBLANCO.png',
+                                'GW 060750',
+                                '$720,000',
+                                'Bicicleta MTB 29P Monkey Aluminio GW.',
+                                [
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 5 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 11.9 kg'},
+                                 
+                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas: M, L, XL'}
+                                ],
+                                [
+                                    {name: 'Rojo', image: 'imgCiclas/z16.png', swatch: '#FF0000'},
+{name: 'Verde', image: 'imgCiclas/z12.png', swatch: '#008000'},
+{name: 'Blanco', image: 'imgCiclas/z15.png', swatch: '#FFFFFF'},
+{name: 'Morado', image: 'imgCiclas/z14.png', swatch: '#800080'},
+{name: 'Negro', image: 'imgCiclas/z13.png', swatch: '#000000'}
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+                    <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="imgCiclas/z22.png" alt="Ferrari Roma">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Bicicleta BMX/RACE 20X1-3/8P EXPERT ELITE GW 060755</h3>
+                            <div class="price">$720,000</div>
+                            <div class="features">
+                       <span><i class="fas fa-cog"></i> 5 Vel</span>
+                                <span><i class="fas fa-weight"></i> 12.5 kg</span>
+                                <span><i class="fas fa-mountain"></i> MTB</span>
+                            </div>
+                            <p>Conecta con tu ciudad. De paseo o al trabajo, cada trayecto es un gusto.</p>
+                            
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                                './img/CBLANCO.png',
+                                'GW 060750',
+                                '$720,000',
+                                'Bicicleta MTB 29P Monkey Aluminio GW.',
+                                [
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 5 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 11.9 kg'},
+                                 
+                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas: M, L, XL'}
+                                ],
+                                [
+                                    {name: 'Verde', image: 'imgCiclas/z22.png', swatch: '#008000'},
+{name: 'Azul Marino', image: 'imgCiclas/z21.png', swatch: '#000080'},
+{name: 'Azul', image: 'imgCiclas/z17.png', swatch: '#0000FF'},
+{name: 'Blanco', image: 'imgCiclas/z19.png', swatch: '#FFFFFF'},
+{name: 'Rojo', image: 'imgCiclas/z18.png', swatch: '#FF0000'},
+{name: 'Negro', image: 'imgCiclas/z20.png', swatch: '#000000'}
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
                 </div>
+                
             </div>
         </section>
     </div>
@@ -2604,21 +3006,21 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             <h3>CLASSIC 060748</h3>
                             <div class="price">$327,000</div>
                             <div class="features">
-                                <span><i class="fas fa-tachometer-alt"></i> 310 km/h</span>
-                                <span><i class="fas fa-bolt"></i> 640 CV</span>
-                                <span><i class="fas fa-car"></i> V10</span>
+                                <span><i class="fas fa-cog"></i> 5 Vel</span>
+                                <span><i class="fas fa-weight"></i> 10 kg</span>
+                                <span><i class="fas fa-mountain"></i> MTB</span>
                             </div>
-                            <p>Versión de circuito homologada para carretera, inspirada en el Super Trofeo.</p>
+                            <p>Rueda con clase, pedalea con calma.</p>
                                <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/DBLANCO.png',
                                 'CLASSIC 060748',
                                 '$327,000',
-                                'Bicicleta clásica con diseño retro y acabados premium. Un verdadero ícono del ciclismo urbano.',
+                                'Rueda con clase, pedalea con calma.',
                                 [
-                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 21 velocidades'},
-                                    {icon: 'fas fa-weight', text: 'Peso: 11.5 kg'},
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 10 kg'},
                                     {icon: 'fas fa-bicycle', text: 'Diseño clásico retro'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de disco mecánicos'},
+                                    
                                     {icon: 'fas fa-ruler-vertical', text: 'Tallas: S, M, L'}
                                 ],
                                 [
@@ -2749,21 +3151,22 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                         </div>
                         <div class="vehicle-info">
                             <h3>KIDS 060355</h3>
-                            <div class="price">$4,299</div>
+                            <div class="price">$280,000</div>
                             <div class="features">
-                                <span><i class="fas fa-cog"></i> 12 Vel</span>
-                                <span><i class="fas fa-weight"></i> 10.2 kg</span>
+                                <span><i class="fas fa-cog"></i> 2 Vel</span>
+                                <span><i class="fas fa-weight"></i> 8 kg</span>
                                 <span><i class="fas fa-mountain"></i> XC</span>
                             </div>
-                            <p>Bicicleta de montaña de alto rendimiento para competición XC.</p>
+                            <p>¡Pequeños grandes aventureros! Ligera y rápida, para conquistar todos los caminos.
+Diversión sobre ruedas con estilo competitivo.</p>
                           <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/ABLANCOAMARILLO.png',
                                 'KIDS 060355',
                                 '$280,000',
                                 'Bicicleta de alto rendimiento diseñada especialmente para niños.',
                                 [
-                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 18 velocidades'},
-                                    {icon: 'fas fa-weight', text: 'Peso: 10.5 kg'},
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 8 kg'},
                                     {icon: 'fas fa-mountain', text: 'Diseño ergonómico para niños'},
                                     {icon: 'fas fa-tools', text: 'Frenos de disco seguros'},
                                     {icon: 'fas fa-ruler-vertical', text: 'Tallas: XS, S, M'}
@@ -2792,24 +3195,24 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                         </div>
                         <div class="vehicle-info">
                             <h3>Kids 060747</h3>
-                            <div class="price">$5,499</div>
+                            <div class="price">$280,000</div>
                             <div class="features">
-                                <span><i class="fas fa-cog"></i> 22 Vel</span>
-                                <span><i class="fas fa-weight"></i> 6.8 kg</span>
+                                <span><i class="fas fa-cog"></i> 2 Vel</span>
+                                <span><i class="fas fa-weight"></i> 8 kg</span>
                                 <span><i class="fas fa-road"></i> Ruta</span>
                             </div>
-                            <p>Bicicleta de ruta profesional con aerodinámica superior.</p>
+                            <p>¡Pequeñas campeonas en acción! Velocidad y ligereza para volar sobre el asfalto.
+Elegancia y diversión en cada pedaleo.</p>
                              <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
                                 './img/ABLANCOAMARILLO.png',
                                 'GW 060747',
                                 '$280,000',
                                 'Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.',
                                 [
-                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 22 velocidades'},
-                                    {icon: 'fas fa-weight', text: 'Peso: 11.9 kg'},
-                                    {icon: 'fas fa-mountain', text: 'Suspensión delantera aire'},
-                                    {icon: 'fas fa-tools', text: 'Frenos de disco hidráulicos'},
-                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas: M, L, XL'}
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 8 kg'},
+                                    
+                                    
                                 ],
                                 [
                                     {name: 'Celeste', image: './img/ECELESTE.png', swatch: '#7FDFFF'},
@@ -2821,7 +3224,41 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                             )">Consultar</button>
                         </div>
                     </div>
-                    
+                     <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./imgCiclas/z3.png" alt="Specialized Tarmac">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Kids 060747</h3>
+                            <div class="price">$280,000</div>
+                            <div class="features">
+                                <span><i class="fas fa-cog"></i> 2 Vel</span>
+                                <span><i class="fas fa-weight"></i> 8 kg</span>
+                                <span><i class="fas fa-road"></i> Ruta</span>
+                            </div>
+                            <p>¡Pequeñas campeonas en acción! Velocidad y ligereza para volar sobre el asfalto.
+Elegancia y diversión en cada pedaleo.</p>
+                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                                './imgCiclas/z3.png',
+                                'GW 060747',
+                                '$280,000',
+                                'Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.',
+                                [
+                                    {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
+                                    {icon: 'fas fa-weight', text: 'Peso: 8 kg'},
+                                    
+                                    
+                                ],
+                                [
+                                    {name: 'Celeste', image: './imgCiclas/z2.png', swatch: '#7FDFFF'},
+                                   
+                                    {name: 'Rosa', image: './imgCiclas/z1.png', swatch: '#FF69B4'},
+                                    
+                                    {name: 'Morado', image: './imgCiclas/z3.png', swatch: '#800080'}
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -3041,88 +3478,412 @@ document.querySelectorAll('nav ul li a').forEach(link => {
         <p>Explora toda nuestra colección de bicicletas</p>
       </div>
 
+      <!-- Search/Filter Box -->
+      <div style="margin: 30px 0; text-align: center;">
+        <input 
+          type="text" 
+          id="catalogoSearch" 
+          placeholder="🔍 Busca un artículo (ej: Cadena, Cascos...)" 
+          style="width: 90%; max-width: 600px; padding: 12px 15px; font-size: 16px; border: 1px solid rgba(57,255,20,0.3); border-radius: 8px; background: rgba(0,0,0,0.3); color: #fff; outline: none; transition: all 0.3s ease;"
+          onkeyup="filterCatalog()"
+        />
+      </div>
+
       <div class="vehicles-grid catalogo-grid">
 
         <!-- Tarjeta 1: GW 060739 -->
-        <div class="vehicle-card" onclick="openCatalogoModal('./img/ABLANCOAMARILLO.png', 'GW 060739', '$1,299')">
+        <div class="vehicle-card" onclick="openCatalogoModal('./img/I1.png', 'Cadena de 6 vel 1/2 x 3/32 gris', '$23.000')">
           <div class="vehicle-image">
-            <img src="./img/ABLANCOAMARILLO.png" alt="GW 060739">
+            <img src="./img/I1.png" alt="GW 060739">
           </div>
           <div class="vehicle-info">
-            <h3>GW 060739</h3>
-            <p>Bicicleta de montaña con cuadro de aluminio ultraligero y suspensión delantera hidráulica.</p>
-            <div class="price">$1,299</div>
-
-            <!-- 🔽 Botón de WhatsApp -->
-           
-            </a>
+            <h3>Cadena de 6 vel 1/2 x 3/32 gris</h3>
+            <p>KMC Z6: Cadena fiable y duradera para 6 velocidades, cambios suaves garantizados.</p>
+            <div class="price">$23.000</div>
           </div>
         </div>
 
 
                     <!-- Tarjeta 2: CLASSIC 060748 -->
-                    <div class="vehicle-card" onclick="openCatalogoModal('./img/DBLANCO.png', 'CLASSIC 060748', '$327,000')">
+                    <div class="vehicle-card" onclick="openCatalogoModal('./imgCATALOGO/c1.png', 'Cadena 10 Vel 1/2X11/128 118L SX10 GRIS GW', '$37,000')">
                         <div class="vehicle-image">
-                            <img src="./img/DBLANCO.png" alt="CLASSIC 060748">
+                            <img src="./imgCATALOGO/c1.png" alt="Cadena 10 Vel 1/2X11/128 118L SX10 GRIS GW">
                         </div>
                         <div class="vehicle-info">
-                            <h3>CLASSIC 060748</h3>
-                            <p>Bicicleta clásica con diseño retro y acabados premium. Un verdadero ícono del ciclismo urbano.</p>
-                            <div class="price">$327,000</div>
+                            <h3>Cadena 10 Vel 1/2X11/128 118L SX10 GRIS GW</h3>
+                            <p>Cadena fiable y duradera para 6 velocidades, cambios suaves garantizados.</p>
+                            <div class="price">$37,000</div>
                         </div>
                     </div>
 
                     <!-- Tarjeta 3: KIDS 060355 -->
-                    <div class="vehicle-card" onclick="openCatalogoModal('./img/EBLANCA.png', 'KIDS 060355', '$3,299')">
-                        <div class="vehicle-image">
-                            <img src="./img/EBLANCA.png" alt="KIDS 060355">
-                        </div>
-                        <div class="vehicle-info">
-                            <h3>KIDS 060355</h3>
-                            <p>Bicicleta de ruta profesional con cuadro de carbono y grupo Shimano Dura-Ace Di2.</p>
-                            <div class="price">$3,299</div>
-                        </div>
-                    </div>
+                 <!-- Tarjeta 3: KIDS 060355 -->
+<div class="vehicle-card" onclick="openCatalogoModal('./imgCATALOGO/c2.png', 'Cadena 7 Vel 1/2X3/32 114L Z7 Marron KMC', '$27,000')">
+    <div class="vehicle-image">
+        <img src="./imgCATALOGO/c2.png" alt="Cadena 7 Vel 1/2X3/32 114L Z7 Marron KMC">
+    </div>
+    <div class="vehicle-info">
+        <h3>Cadena 7 Vel 1/2X3/32 114L Z7 Marron KMC</h3>
+        <p>Cadena fiable y duradera para 6 velocidades, cambios suaves garantizados.</p>
+        <div class="price">$27,000</div>
+    </div>
+</div>
+
 
                     <!-- Tarjeta 4: GW 060728 -->
-                    <div class="vehicle-card" onclick="openCatalogoModal('./img/BBLANCO.png', 'GW 060728', '$280,000')">
-                        <div class="vehicle-image">
-                            <img src="./img/BBLANCO.png" alt="GW 060728">
-                        </div>
-                        <div class="vehicle-info">
-                            <h3>GW 060728</h3>
-                            <p>Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.</p>
-                            <div class="price">$280,000</div>
-                        </div>
-                    </div>
+                   <!-- Tarjeta: Cadena 8 Vel 1/2X3/32 116L Z8.3 Gris KMC -->
+<div class="vehicle-card" onclick="openCatalogoModal('./imgCATALOGO/c3.png', 'Cadena 8 Vel 1/2X3/32 116L Z8.3 Gris KMC', '$37,000')">
+    <div class="vehicle-image">
+        <img src="./imgCATALOGO/c3.png" alt="Cadena 8 Vel 1/2X3/32 116L Z8.3 Gris KMC">
+    </div>
+    <div class="vehicle-info">
+        <h3>Cadena 8 Vel 1/2X3/32 116L Z8.3 Gris KMC</h3>
+        <p>Cadena fiable y duradera para 8 velocidades, con cambios suaves y precisos.</p>
+        <div class="price">$37,000</div>
+    </div>
+</div>
+
 
                     <!-- Tarjeta 5: GW 060750 -->
-                    <div class="vehicle-card" onclick="openCatalogoModal('./img/CNARANJA.png', 'GW 060750', '$247,000')">
+                    <div class="vehicle-card" onclick="openCatalogoModal('./imgCATALOGO/c4.png', 'Cadena 9 Vel 1/2X11/128 116L Z9 Gris KMC', '$59,900')">
                         <div class="vehicle-image">
-                            <img src="./img/CNARANJA.png" alt="GW 060750">
+                            <img src="./imgCATALOGO/c4.png" alt="Cadena 9 Vel 1/2X11/128 116L Z9 Gris KMC">
                         </div>
                         <div class="vehicle-info">
-                            <h3>GW 060750</h3>
-                            <p>Elegante bicicleta que representa el concepto de máximo rendimiento y diseño.</p>
-                            <div class="price">$247,000</div>
+                            <h3>Cadena 9 Vel 1/2X11/128 116L Z9 Gris KMC</h3>
+                            <p>Cadena fiable y duradera para 6 velocidades, cambios suaves garantizados.</p>
+                            <div class="price">$59,900</div>
                         </div>
                     </div>
 
                     <!-- Tarjeta 6: CLASSIC 060747 -->
-                    <div class="vehicle-card" onclick="openCatalogoModal('./img/DROJO.png', 'CLASSIC 060747', '$5,499')">
+                    <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c5.png', 'Cadena 1 Vel 1/2X1/8 114L C410 Gris TEC', '$16,000')">
                         <div class="vehicle-image">
-                            <img src="./img/DROJO.png" alt="CLASSIC 060747">
+                            <img src="./imgCATALOGO/c5.png" alt="Cadena 1 Vel 1/2X1/8 114L C410 Gris TEC">
                         </div>
                         <div class="vehicle-info">
-                            <h3>CLASSIC 060747</h3>
+                            <h3>Cadena 1 Vel 1/2X1/8 114L C410 Gris TEC</h3>
                             <p>Bicicleta de montaña de alto rendimiento para competición XC.</p>
-                            <div class="price">$5,499</div>
+                            <div class="price">$16,000</div>
                         </div>
                     </div>
                     <!--------------------------------------------------->
+                                     <div class="section-title wide">
+    <h2>Cascos y Botellas</h2>
+</div>
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c9.png" alt="Casco MTB Mantis GW">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Casco MTB Mantis GW</h3>
+                            <div class="price">$65.000</div>
+                         
+                            <p>Casco MTB Mantis GW Talla M para hombre y M para mujer</p>
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                                '/imgCATALOGO/c9.png',
+                                'Casco MTB Mantis GW',
+                                '$65.000',
+                                'Seguro y Comodos',
+                                [
+                                    
+                                    {icon: 'fas fa-ruler-vertical', text: 'Tallas: M'}
+                                ],
+                                [
+                                    {name: 'Celeste', image: './imgCATALOGO/c7.png', swatch: '#87CEEB'},
+                                    {name: 'Morado', image: './imgCATALOGO/c11.png', swatch: '#800080'},
+                                    {name: 'Negro', image: './imgCATALOGO/c13.png', swatch: '#000000'},
+                                    {name: 'Blanco', image: './imgCATALOGO/c9.png', swatch: '#FFFFFF'},
+
+                                   {name: 'Verde Militar', image: './imgCATALOGO/c14.png', swatch: '#4B5320'},
+                                   {name: 'Rosa', image: './imgCATALOGO/c12.png', swatch: '#FFC0CB'},
+
+                                   {name: 'Azul Oscuro', image: './imgCATALOGO/c10.png', swatch: '#00008B'},
+                                    {name: 'Rojo', image: './imgCATALOGO/c8.png', swatch: '#FF0000'}
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+                   
+                    <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c16.png" alt="Botella  550 ML">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Botella  550 ML</h3>
+                            <div class="price">$65.000</div>
+                         
+                            <p>Botella  550 ML</p>
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                                '/imgCATALOGO/c16.png',
+                                'Botella  550 ML',
+                                '$65.000',
+                                'Mantente hidratado con nuestras bottellas Kebea de 550 ML, diseñadas para ciclistas.',
+                                [
+                                    
+                                   
+                                ],
+                                [
+                                    {name: 'Amarillo Anaranjado', image: './imgCATALOGO/c16.png', swatch: '#FFA824'},
+
+                                    {name: 'Negro', image: './imgCATALOGO/pr.png', swatch: '#000000'},
+                                    {name: 'Blanco', image: './imgCATALOGO/c18.png', swatch: '#FFFFFF'},
+
+                                   {name: 'Verde Militar', image: './imgCATALOGO/c17.png', swatch: '#4B5320'}
+                                   
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+ <div class="section-title wide">
+    <h2>Conector de Cadena</h2>
+</div>
+   <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c19.png', 'Conector cadena 9 Vel SL 566 Silver GW', '$13,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c19.png" alt="Conector cadena 9 Vel SL 566 Silver GW">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Conector cadena 9 Vel SL 566 Silver GW</h3>
+                            
+                            <div class="price">$13,000</div>
+                        </div>
+                    </div>
+ <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c20.png', 'Conector cadena 10 Vel SL 559 Silver GW', '$13,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c20.png" alt="Conector cadena 10 Vel SL 559 Silver GW">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Conector cadena 10 Vel SL 559 Silver GW</h3>
+                       
+                            <div class="price">$13,000</div>
+                        </div>
+                    </div>
+                     <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c22.png', 'Conector cadena 12 Vel SL561 Silver GW', '$15,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c22.png" alt="Conector cadena 12 Vel SL561 Silver GW">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Conector cadena 12 Vel SL561 Silver GW</h3>
+                          
+                            <div class="price">$15,000</div>
+                        </div>
+                    </div>
+                     <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c23.png', 'Conector cadena 6/7/8 Vel SL586 Silver GW', '$13,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c23.png" alt="Conector cadena 6/7/8 Vel SL586 Silver GW">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Conector cadena 6/7/8 Vel SL586 Silver GW</h3>
+                          
+                            <div class="price">$13,000</div>
+                        </div>
+                    </div>
+                     <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c21.png', 'Conector cadena 11 Vel Missinglink CL555R Cromado KMC', '$28,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c21.png" alt="Conector cadena 10 Vel SL 559 Silver GW">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Conector cadena 11 Vel Missinglink CL555R Cromado KMC</h3>
+                     
+                            <div class="price">$28,000</div>
+                        </div>
+                     </div>
+            <div class="section-title wide">
+    <h2>Descarrilador y Desviador</h2>  
+                    </div>
+                        <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c24.png', 'Descarrilador fd-ty300 tourney 3x6-7v 31,8 abrasadera', '$32,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c24.png" alt="Descarrilador fd-ty300 tourney 3x6-7v 31,8 abrasadera">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Descarrilador fd-ty300 tourney 3x6-7v 31,8 abrasadera</h3>
+                     
+                            <div class="price">$ 32.000</div>
+                        </div>            
+                            
+                    
+                    </div>
+                     <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c24.png', 'Descarrilador fd-ty300 tourney 3x6-7v 34,9 abrasadera', '$35,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c24.png" alt="Descarrilador fd-ty300 tourney 3x6-7v 34,9 abrasadera">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Descarrilador fd-ty300 tourney 3x6-7v 34,9 abrasadera</h3>
+                     
+                            <div class="price">$35,000</div>
+                        </div>  
+                    
+                    </div>
+                         <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c26.jpeg', 'Desviador trasero MTB 6/7 Vel H50 Negro Millenium', '$27,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c26.jpeg" alt="Desviador trasero MTB 6/7 Vel H50 Negro Millenium">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Desviador trasero MTB 6/7 Vel H50 Negro Millenium</h3>
+                     
+                            <div class="price">$27,000</div>
+                        </div>  
+                        </div>
+                         <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c27.png', 'Desviador trasero RD-R3000 GS Sora 9 V', '$140,000')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c27.png" alt="Desviador trasero RD-R3000 GS Sora 9 V">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Desviador trasero RD-R3000 GS Sora 9 V</h3>
+                     
+                            <div class="price">$140,000</div>
+                        </div>  
+                    </div>
+                     <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c28.png', 'Desviador trasero RD-TY500 TOURNEY 6-7 V', '$59,800')">
+                        <div class="vehicle-image">
+                            <img src="./imgCATALOGO/c28.png" alt="Desviador trasero RD-TY500 TOURNEY 6-7 V">
+                        </div>
+                        <div class="vehicle-info">
+les                     
+                            <div class="price">$59,800</div>
+                        </div>  
                 </div>
+                
             </div>
             
+        </section>
+    </div>
+
+    <!-- Página Servicios -->
+    <div id="servicios" class="category-page">
+        <section class="services-section">
+            <div class="container">
+                <a href="#" class="back-btn" onclick="showPage('inicio')"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+                <div class="section-title">
+                    <h2>Servicios Profesionales</h2>
+                    <p>Mantenimiento y reparación de bicicletas de alta gama</p>
+                </div>
+
+                <div class="services-content">
+                    <div class="services-hero">
+                        <h3>Mantenimiento Profesional de Bicicletas en Yopal</h3>
+                        <p>En nuestro taller ofrecemos los servicios de mantenimiento y reparación más profesionales de Yopal. Con experiencia en bicicletas de alta gama, garantizamos calidad y precisión en cada servicio.</p>
+                    </div>
+
+                    <div class="services-grid">
+                        <!-- Servicio 1 -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h4>Mantenimiento General</h4>
+                            <p>Revisión completa de tu bicicleta: cambio de cables, ajuste de frenos y cambios, limpieza y lubricación profesional.</p>
+                            <ul>
+                                <li>✓ Ajuste de cambios</li>
+                                <li>✓ Revisión de frenos</li>
+                                <li>✓ Lubricación profesional</li>
+                                <li>✓ Limpieza a fondo</li>
+                            </ul>
+                        </div>
+
+                        <!-- Servicio 2 -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-bicycle"></i>
+                            </div>
+                            <h4>Reparación de Suspensión</h4>
+                            <p>Servicio especializado en suspensión delantera y trasera. Reparación, ajuste y mantenimiento de sistemas hidráulicos.</p>
+                            <ul>
+                                <li>✓ Revisión de amortiguadores</li>
+                                <li>✓ Purga de aire</li>
+                                <li>✓ Ajuste de compresión</li>
+                                <li>✓ Reemplazo de sellos</li>
+                            </ul>
+                        </div>
+
+                        <!-- Servicio 3 -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <h4>Cambio de Componentes</h4>
+                            <p>Reemplazo profesional de llantas, cadenas, piñones y otros componentes originales de alta calidad.</p>
+                            <ul>
+                                <li>✓ Cambio de llantas</li>
+                                <li>✓ Reemplazo de cadena</li>
+                                <li>✓ Piñones y sprockets</li>
+                                <li>✓ Componentes Shimano</li>
+                            </ul>
+                        </div>
+
+                        <!-- Servicio 4 -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-wrench"></i>
+                            </div>
+                            <h4>Alineación y Centering</h4>
+                            <p>Servicio profesional de alineación de llantas y ajuste de ruedas para óptimo rendimiento.</p>
+                            <ul>
+                                <li>✓ Alineación de ruedas</li>
+                                <li>✓ Centering de llantas</li>
+                                <li>✓ Ajuste de rayos</li>
+                                <li>✓ Tensión perfecta</li>
+                            </ul>
+                        </div>
+
+                        <!-- Servicio 5 -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-spray-can"></i>
+                            </div>
+                            <h4>Pintado y Personalización</h4>
+                            <p>Dale un nuevo look a tu bicicleta con nuestro servicio profesional de pintura y personalización.</p>
+                            <ul>
+                                <li>✓ Pintura profesional</li>
+                                <li>✓ Acabado de calidad</li>
+                                <li>✓ Diseños personalizados</li>
+                                <li>✓ Protección UV</li>
+                            </ul>
+                        </div>
+
+                        <!-- Servicio 6 -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h4>Inspección Técnica</h4>
+                            <p>Revisión técnica completa antes de competencias o travesías importantes. Diagnóstico profesional.</p>
+                            <ul>
+                                <li>✓ Diagnóstico completo</li>
+                                <li>✓ Reporte detallado</li>
+                                <li>✓ Recomendaciones</li>
+                                <li>✓ Garantía de calidad</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="services-info">
+                        <h3>¿Por qué elegir nuestros servicios?</h3>
+                        <div class="info-grid">
+                           
+                            <div class="info-item">
+                                <h5>🔧 Herramientas de Calidad</h5>
+                                <p>Equipamiento profesional y herramientas especializadas para cada trabajo.</p>
+                            </div>
+                            <div class="info-item">
+                                <h5>⏱️ Servicio Rápido</h5>
+                                <p>Trabajos eficientes sin comprometer la calidad. Entregas puntuales.</p>
+                            </div>
+                            <div class="info-item">
+                                <h5>💯 Garantía Completa</h5>
+                                <p>Todos nuestros servicios incluyen garantía de satisfacción.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta-services">
+                        <h3>¿Necesitas nuestros servicios?</h3>
+                        <p>Contáctanos y obtén una consulta gratuita. Somos los mejores en Yopal.</p>
+                        <a href="https://wa.me/573224167942?text=Hola%20BicycleParts,%20me%20interesa%20conocer%20sobre%20sus%20servicios" target="_blank" class="btn">Contactar Ahora</a>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 
@@ -3163,213 +3924,18 @@ document.querySelectorAll('nav ul li a').forEach(link => {
             </div>
         </div>
     </div>
-<footer id="contacto">
+
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
              
             <div class="copyright">
-                <p data-i18n="footer.copy">&copy; 2025 BicycleParts. Todos los derechos reservados.</p>
+                <p>&copy; 2025 BicycleParts. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Simple i18n switcher: ES/EN
-        (function(){
-            const translations = {
-                // nav and header
-                "Inicio": "Home",
-                "GW": "GW",
-                "Classic": "Classic",
-                "Kids": "Kids",
-                "Ruta": "Route",
-                "Catálogo": "Catalog",
-                // hero
-                "BICICLETAS DE ALTA GAMA": "HIGH-END BICYCLES",
-                "Descubre la excelencia en bicicletas de montaña y ruta: GW, Classic, Kids y más": "Discover excellence in mountain and road bikes: GW, Classic, Kids and more",
-                "Explorar Colección": "Explore Collection",
-                // sections
-                "Bicicletas Destacadas": "Featured Bicycles",
-                "Selección exclusiva de las mejores bicicletas del mercado": "Exclusive selection of the best bicycles on the market",
-                // buttons
-                "Consultar": "Inquire",
-                "Lo quiero": "I want it",
-                // footer
-                "\u00A9 2025 BicycleParts. Todos los derechos reservados.": "\u00A9 2025 BicycleParts. All rights reserved.",
-                "Todos los derechos reservados.": "All rights reserved."
-            };
-
-            function applyTranslationsToTextNodes(lang){
-                const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-                    acceptNode: function(node){
-                        if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-                        return NodeFilter.FILTER_ACCEPT;
-                    }
-                });
-                let node;
-                while(node = walker.nextNode()){
-                    const parent = node.parentNode;
-                    if(!parent) continue;
-                    if(!parent.dataset.origText) parent.dataset.origText = node.nodeValue;
-                    const text = node.nodeValue.trim();
-                    if(lang === 'en'){
-                        if(translations[text]){
-                            node.nodeValue = node.nodeValue.replace(text, translations[text]);
-                        }
-                    } else {
-                        // restore original from parent dataset
-                        node.nodeValue = parent.dataset.origText;
-                    }
-                }
-            }
-
-            function applyTranslationsToAttributes(lang){
-                const attrs = ['placeholder','alt','title','value'];
-                document.querySelectorAll('*').forEach(el => {
-                    attrs.forEach(a => {
-                        if(el.hasAttribute(a)){
-                            const cur = el.getAttribute(a);
-                            if(!el.dataset['orig'+a]) el.dataset['orig'+a] = cur;
-                            if(lang === 'en' && translations[cur]) el.setAttribute(a, translations[cur]);
-                            if(lang === 'es') el.setAttribute(a, el.dataset['orig'+a]);
-                        }
-                    });
-                });
-            }
-
-            function setLanguage(lang){
-                if(lang === 'en'){
-                    applyTranslationsToTextNodes('en');
-                    applyTranslationsToAttributes('en');
-                } else {
-                    applyTranslationsToTextNodes('es');
-                    applyTranslationsToAttributes('es');
-                }
-                localStorage.setItem('site_lang', lang);
-                const sel = document.getElementById('langSelect'); if(sel) sel.value = lang;
-            }
-
-            document.addEventListener('DOMContentLoaded', function(){
-                const sel = document.getElementById('langSelect');
-                if(!sel) return;
-                // restore selection
-                const saved = localStorage.getItem('site_lang') || 'es';
-                sel.value = saved;
-                setLanguage(saved);
-                sel.addEventListener('change', function(){
-                    setLanguage(this.value);
-                });
-            });
-        })();
-
-        /* Simple i18n: maps keys to translated strings for 'en' and 'es'.
-           Adds handlers to the header language buttons/select and persists choice in localStorage. */
-        (function() {
-            const translations = {
-                en: {
-                    'nav.home': 'Home',
-                    'nav_inicio': 'Home',
-                    'nav.gw': 'GW',
-                    'nav_gw': 'GW',
-                    'nav.classic': 'Classic',
-                    'nav_classic': 'Classic',
-                    'nav.kids': 'Kids',
-                    'nav_kids': 'Kids',
-                    'nav.route': 'Route',
-                    'ruta': 'Route',
-                    'nav.catalog': 'Catalog',
-                    'nav_catalogo': 'Catalog',
-                    'brand': 'BICYCLE',
-                    'parts': 'PARTS',
-                    'hero.title': 'HIGH-END BICYCLES',
-                    'hero.desc': 'Discover excellence in mountain and road bikes: GW, Classic, Kids and more',
-                    'hero.cta': 'Explore Collection',
-                    'section.featured.title': 'Featured Bicycles',
-                    'section.featured.desc': 'Exclusive selection of the best bicycles on the market',
-                    'btn.consult': 'Consult',
-                    'btn.reserve': 'Reserve',
-                    'btn.offer': 'Take Offer',
-                    'footer.copy': '© 2025 BicycleParts. All rights reserved.'
-                },
-                es: {
-                    'nav.home': 'Inicio',
-                    'nav_inicio': 'Inicio',
-                    'nav.gw': 'GW',
-                    'nav_gw': 'GW',
-                    'nav.classic': 'Classic',
-                    'nav_classic': 'Classic',
-                    'nav.kids': 'Kids',
-                    'nav_kids': 'Kids',
-                    'nav.route': 'Ruta',
-                    'ruta': 'Ruta',
-                    'nav.catalog': 'Catálogo',
-                    'nav_catalogo': 'Catálogo',
-                    'brand': 'BICYCLE',
-                    'parts': 'PARTS',
-                    'hero.title': 'BICICLETAS DE ALTA GAMA',
-                    'hero.desc': 'Descubre la excelencia en bicicletas de montaña y ruta: GW, Classic, Kids y más',
-                    'hero.cta': 'Explorar Colección',
-                    'section.featured.title': 'Bicicletas Destacadas',
-                    'section.featured.desc': 'Selección exclusiva de las mejores bicicletas del mercado',
-                    'btn.consult': 'Consultar',
-                    'btn.reserve': 'Reservar',
-                    'btn.offer': 'Aprovechar Oferta',
-                    'footer.copy': '© 2025 BicycleParts. Todos los derechos reservados.'
-                }
-            };
-
-            function translatePage(lang) {
-                if (!lang) lang = 'es';
-                // translate elements with data-i18n
-                document.querySelectorAll('[data-i18n]').forEach(el => {
-                    const key = el.getAttribute('data-i18n');
-                    // store original text for fallback
-                    if (!el.dataset.originalText) el.dataset.originalText = el.textContent.trim();
-                    const translated = (translations[lang] && translations[lang][key]) || null;
-                    if (translated) {
-                        // preserve innerHTML only for elements that previously had HTML (e.g., small tags)
-                        el.textContent = translated;
-                    } else {
-                        // fallback: if lang is 'es' restore original text, else leave as-is
-                        if (lang === 'es') el.textContent = el.dataset.originalText;
-                    }
-                });
-
-                // Set active state on any .lang-btn buttons
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.dataset.active = (btn.dataset.lang === lang) ? 'true' : 'false';
-                });
-
-                // If there is a select with id langSelect, set its value
-                const sel = document.getElementById('langSelect');
-                if (sel) sel.value = lang;
-
-                localStorage.setItem('site_lang', lang);
-            }
-
-            function setLanguage(lang) {
-                translatePage(lang);
-            }
-
-            // Attach handlers to buttons and select
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        setLanguage(this.dataset.lang);
-                    });
-                });
-
-                const sel = document.getElementById('langSelect');
-                if (sel) sel.addEventListener('change', function() { setLanguage(this.value); });
-
-                // initialize language from localStorage or default 'es'
-                const saved = localStorage.getItem('site_lang') || 'es';
-                translatePage(saved);
-            });
-        })();
-
-    </script>
         // (modal functions consolidated later)
 
         // Funcionalidad del selector de colores
@@ -3455,16 +4021,16 @@ document.querySelectorAll('nav ul li a').forEach(link => {
         }
 
         // Mejorado Mobile Menu Handler
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const nav = document.querySelector('nav');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const nav = document.querySelector('nav');
         let isMenuOpen = false;
 
         function openMobileMenu() {
             isMenuOpen = true;
-            nav.classList.add('active');
-            mobileMenu.classList.add('active');
+            if (nav) nav.classList.add('active');
+            if (mobileMenu) mobileMenu.classList.add('active');
             document.body.style.overflow = 'hidden';
-            mobileMenu.querySelector('i').classList.replace('fa-bars', 'fa-times');
+            if (mobileMenu) mobileMenu.querySelector('i')?.classList.replace('fa-bars', 'fa-times');
             
             // Añadir overlay
             if (!document.querySelector('.menu-overlay')) {
@@ -3489,10 +4055,10 @@ document.querySelectorAll('nav ul li a').forEach(link => {
 
         function closeMobileMenu() {
             isMenuOpen = false;
-            nav.classList.remove('active');
-            mobileMenu.classList.remove('active');
+            if (nav) nav.classList.remove('active');
+            if (mobileMenu) mobileMenu.classList.remove('active');
             document.body.style.overflow = '';
-            mobileMenu.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            if (mobileMenu) mobileMenu.querySelector('i')?.classList.replace('fa-times', 'fa-bars');
             
             // Remover overlay con animación
             const overlay = document.querySelector('.menu-overlay');
@@ -3502,7 +4068,7 @@ document.querySelectorAll('nav ul li a').forEach(link => {
             }
         }
 
-        mobileMenu.addEventListener('click', function(e) {
+        if (mobileMenu) mobileMenu.addEventListener('click', function(e) {
             e.stopPropagation();
             if (isMenuOpen) {
                 closeMobileMenu();
@@ -3526,97 +4092,53 @@ document.querySelectorAll('nav ul li a').forEach(link => {
         });
 
         // Previene el scroll cuando el menú está abierto
-        nav.addEventListener('touchmove', function(e) {
-            e.stopPropagation();
-        }, { passive: true });
+        if (nav) {
+            nav.addEventListener('touchmove', function(e) {
+                e.stopPropagation();
+            }, { passive: true });
+        }
 
-        // Manejo mejorado de dropdowns en móvil
-        document.querySelectorAll('nav ul li a.has-dropdown').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
+        // Control del menú social con timeout para asegurar que el DOM está listo
+        setTimeout(function() {
+            const toggleBtn = document.querySelector('.toggle-btn');
+            const socialMenu = document.querySelector('.social-menu');
+            
+            if (toggleBtn && socialMenu) {
+                // Click en el botón toggle
+                toggleBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    
-                    const dropdownMenu = this.nextElementSibling;
+                    socialMenu.classList.toggle('active');
                     const icon = this.querySelector('i');
-                    
-                    // Cerrar otros dropdowns
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        if (menu !== dropdownMenu && menu.style.display === 'block') {
-                            menu.style.display = 'none';
-                            const menuIcon = menu.previousElementSibling.querySelector('i');
-                            if (menuIcon) {
-                                menuIcon.style.transform = 'rotate(0)';
-                            }
-                        }
-                    });
-                    
-                    // Toggle current dropdown
-                    if (dropdownMenu) {
-                        const isOpen = dropdownMenu.style.display === 'block';
-                        dropdownMenu.style.display = isOpen ? 'none' : 'block';
-                        if (icon) {
-                            icon.style.transform = isOpen ? 'rotate(0)' : 'rotate(-180deg)';
-                        }
-                    }
-                }
-            });
-        });
-
-        // Cerrar dropdowns al hacer clic fuera
-        document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768 && !e.target.closest('.has-dropdown')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    menu.style.display = 'none';
-                    const icon = menu.previousElementSibling.querySelector('i');
                     if (icon) {
-                        icon.style.transform = 'rotate(0)';
+                        icon.classList.toggle('fa-chevron-left');
+                        icon.classList.toggle('fa-times');
+                    }
+                });
+                
+                // Cerrar menú social al tocar fuera
+                document.addEventListener('click', function(e) {
+                    if (!socialMenu.contains(e.target)) {
+                        socialMenu.classList.remove('active');
+                        const icon = toggleBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.add('fa-chevron-left');
+                            icon.classList.remove('fa-times');
+                        }
                     }
                 });
             }
-        });
-
-        // Control del menú social mejorado
-        document.querySelector('.toggle-btn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            document.querySelector('.social-menu').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-chevron-left');
-            this.querySelector('i').classList.toggle('fa-times');
-        });
-
-        // Cerrar menú social al tocar fuera
-        document.addEventListener('click', function(e) {
-            const socialMenu = document.querySelector('.social-menu');
-            if (!socialMenu.contains(e.target)) {
-                socialMenu.classList.remove('active');
-                const icon = socialMenu.querySelector('.toggle-btn i');
-                if (icon) {
-                    icon.classList.add('fa-chevron-left');
-                    icon.classList.remove('fa-times');
-                }
-            }
-        });
-
-        // (modal functions consolidated later in file)
-
-        // Control de colores en el modal
-        document.querySelectorAll('.color-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remover clase activa de todos los botones
-                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-                // Agregar clase activa al botón clickeado
-                this.classList.add('active');
-                // Actualizar imagen
-                const newImage = this.dataset.image;
-                document.getElementById('modalProductImage').src = newImage;
-            });
-        });
-
-        // Inicializar los botones sociales
-        document.querySelector('.card1').addEventListener('click', () => window.open('https://instagram.com/bicycleparts', '_blank'));
-        document.querySelector('.card2').addEventListener('click', () => window.open('https://www.facebook.com/share/16VbJnNf7P/?mibextid=wwXIfr', '_blank'));
-        document.querySelector('.card3').addEventListener('click', () => window.open('https://wa.me/573224167942', '_blank'));
-        document.querySelector('#maps-button').addEventListener('click', () => window.open('https://www.google.com/maps/search/?api=1&query=Calle+44+%23+6+-+02+Yopal+Casanare', '_blank'));
+            
+            // Inicializar los botones sociales
+            const card1 = document.querySelector('.card1');
+            const card2 = document.querySelector('.card2');
+            const card3 = document.querySelector('.card3');
+            const mapsBtn = document.querySelector('#maps-button');
+            
+            if (card1) card1.addEventListener('click', () => window.open('https://instagram.com/bicycleparts', '_blank'));
+            if (card2) card2.addEventListener('click', () => window.open('https://www.facebook.com/share/16VbJnNf7P/?mibextid=wwXIfr', '_blank'));
+            if (card3) card3.addEventListener('click', () => window.open('https://wa.me/573224167942', '_blank'));
+            if (mapsBtn) mapsBtn.addEventListener('click', () => window.open('https://www.google.com/maps/search/?api=1&query=Calle+44+%23+6+-+02+Yopal+Casanare', '_blank'));
+        }, 100);
         // Funciones del modal (unica implementación consolidada)
         function openProductModal(image, title, price, description, specs, colors) {
             const modal = document.getElementById('productModal');
@@ -3708,6 +4230,27 @@ document.querySelectorAll('nav ul li a').forEach(link => {
             document.body.style.overflow = '';
         }
 
+        // Función para filtrar catálogo por búsqueda
+        function filterCatalog() {
+            const input = document.getElementById('catalogoSearch');
+            const filter = input.value.toUpperCase();
+            const catalogoGrid = document.querySelector('.catalogo-grid');
+            const cards = catalogoGrid.querySelectorAll('.vehicle-card');
+
+            cards.forEach(card => {
+                const h3 = card.querySelector('h3');
+                const p = card.querySelector('p');
+                const textH3 = h3 ? h3.textContent.toUpperCase() : '';
+                const textP = p ? p.textContent.toUpperCase() : '';
+                
+                if (textH3.includes(filter) || textP.includes(filter)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         // Cerrar modal al hacer clic fuera
         (function() {
             const modal = document.getElementById('productModal');
@@ -3746,6 +4289,185 @@ document.querySelectorAll('nav ul li a').forEach(link => {
                 if (e.target === this) closeCatalogoModal();
             });
         })();
+    </script>
+    <!-- Language translation script (safer: preserves HTML structure, replaces text nodes only) -->
+    <script>
+    (function(){
+        // Map of Spanish -> English translations (add more entries as needed)
+        const translations = {
+            "Inicio": "Home",
+            "Catálogo": "Catalog",
+            "Servicios": "Services",
+            "Explorar Colección": "Explore Collection",
+            "BICICLETAS DE ALTA GAMA": "HIGH-END BICYCLES",
+            "Descubre la excelencia en bicicletas de montaña y ruta: GW, Classic, Kids y más": "Discover excellence in mountain and road bikes: GW, Classic, Kids and more",
+            "Bicicletas Destacadas": "Featured Bikes",
+            "Selección exclusiva de las mejores bicicletas del mercado": "Exclusive selection of the best bikes on the market",
+            "Bicicleta de montaña con cuadro de aluminio ultraligero y suspensión delantera hidráulica.": "Mountain bike with ultra-light aluminum frame and hydraulic front suspension.",
+            "Bicicleta de montaña premium con tecnología de vanguardia. Diseñada para el máximo rendimiento en terrenos exigentes.": "Premium mountain bike with cutting-edge technology. Designed for maximum performance on demanding terrain.",
+            "Bicicleta clásica con diseño retro y acabados premium. Un verdadero ícono del ciclismo urbano.": "Classic bike with retro design and premium finishes. A true icon of urban cycling.",
+            "Consultar": "Inquire",
+            "Volver al Inicio": "Back to Home",
+            "GW - Bicicletas de Montaña": "GW - Mountain Bikes",
+            "Descubre la excelencia en bicicletas GW de montaña: tecnología, diseño y aventura.": "Discover excellence in GW mountain bikes: technology, design and adventure.",
+            "Vel": "Speeds",
+            "Peso": "Weight",
+            "Tallas disponibles": "Available sizes",
+            "Frenos de Disco Hidráulicos": "Hydraulic Disc Brakes",
+            "Neumáticos Todo Terreno": "All-Terrain Tires",
+            "Tallas:": "Sizes:",
+            "Diseño clásico retro": "Classic retro design",
+            "Bicicleta de ruta profesional con cuadro de carbono FACT 12r y grupo Shimano Dura-Ace Di2.": "Professional road bike with FACT 12r carbon frame and Shimano Dura-Ace Di2 groupset.",
+            "Servicios Profesionales": "Professional Services",
+            "Mantenimiento y reparación de bicicletas de alta gama": "Maintenance and repair of high-end bicycles",
+            "Mantenimiento Profesional de Bicicletas en Yopal": "Professional Bicycle Maintenance in Yopal",
+            "En nuestro taller ofrecemos los servicios de mantenimiento y reparación más profesionales de Yopal. Con experiencia en bicicletas de alta gama, garantizamos calidad y precisión en cada servicio.": "In our workshop we offer the most professional maintenance and repair services in Yopal. With experience in high-end bicycles, we guarantee quality and precision in every service.",
+            "Mantenimiento General": "General Maintenance",
+            "Revisión completa de tu bicicleta: cambio de cables, ajuste de frenos y cambios, limpieza y lubricación profesional.": "Complete review of your bike: cable replacement, brake and gear adjustment, cleaning and professional lubrication.",
+            "Ajuste de cambios": "Gear adjustment",
+            "Revisión de frenos": "Brake review",
+            "Lubricación profesional": "Professional lubrication",
+            "Limpieza a fondo": "Deep cleaning",
+            "Reparación de Suspensión": "Suspension Repair",
+            "Servicio especializado en suspensión delantera y trasera. Reparación, ajuste y mantenimiento de sistemas hidráulicos.": "Specialized service in front and rear suspension. Repair, adjustment and maintenance of hydraulic systems.",
+            "Revisión de amortiguadores": "Shock absorber inspection",
+            "Purga de aire": "Air bleed",
+            "Ajuste de compresión": "Compression adjustment",
+            "Reemplazo de sellos": "Seal replacement",
+            "Cambio de Componentes": "Component Replacement",
+            "Reemplazo profesional de llantas, cadenas, piñones y otros componentes originales de alta calidad.": "Professional replacement of tires, chains, sprockets and other high-quality original components.",
+            "Cambio de llantas": "Tire change",
+            "Reemplazo de cadena": "Chain replacement",
+            "Piñones y sprockets": "Sprockets and sprockets",
+            "Componentes Shimano": "Shimano components",
+            "Alineación y Centering": "Alignment and Centering",
+            "Servicio profesional de alineación de llantas y ajuste de ruedas para óptimo rendimiento.": "Professional tire alignment and wheel adjustment service for optimal performance.",
+            "Alineación de ruedas": "Wheel alignment",
+            "Centering de llantas": "Tire centering",
+            "Ajuste de rayos": "Spoke adjustment",
+            "Tensión perfecta": "Perfect tension",
+            "Pintado y Personalización": "Painting and Customization",
+            "Dale un nuevo look a tu bicicleta con nuestro servicio profesional de pintura y personalización.": "Give your bike a new look with our professional painting and customization service.",
+            "Pintura profesional": "Professional painting",
+            "Acabado de calidad": "Quality finish",
+            "Diseños personalizados": "Custom designs",
+            "Protección UV": "UV protection",
+            "Inspección Técnica": "Technical Inspection",
+            "Revisión técnica completa antes de competencias o travesías importantes. Diagnóstico profesional.": "Complete technical inspection before competitions or important trips. Professional diagnosis.",
+            "Diagnóstico completo": "Complete diagnosis",
+            "Reporte detallado": "Detailed report",
+            "Recomendaciones": "Recommendations",
+            "Garantía de calidad": "Quality guarantee",
+            "¿Por qué elegir nuestros servicios?": "Why choose our services?",
+            "Experiencia Profesional": "Professional Experience",
+            "Más de 10 años reparando bicicletas de todas las marcas y tipos en Yopal.": "Over 10 years repairing bikes of all brands and types in Yopal.",
+            "Herramientas de Calidad": "Quality Tools",
+            "Equipamiento profesional y herramientas especializadas para cada trabajo.": "Professional equipment and specialized tools for each job.",
+            "Servicio Rápido": "Fast Service",
+            "Trabajos eficientes sin comprometer la calidad. Entregas puntuales.": "Efficient work without compromising quality. Timely deliveries.",
+            "Garantía Completa": "Complete Guarantee",
+            "Todos nuestros servicios incluyen garantía de satisfacción.": "All our services include satisfaction guarantee.",
+            "¿Necesitas nuestros servicios?": "Do you need our services?",
+            "Contáctanos y obtén una consulta gratuita. Somos los mejores en Yopal.": "Contact us and get a free consultation. We are the best in Yopal.",
+            "Contactar Ahora": "Contact Now",
+            "Catálogo Completo": "Complete Catalog",
+            "Explora toda nuestra colección de bicicletas": "Explore our entire bike collection"
+        };
+
+        // Save original Spanish content for each element (only once)
+        function storeOriginals(){
+            const elems = document.querySelectorAll('body *:not(script):not(style):not(link):not(noscript)');
+            elems.forEach(el=>{
+                if(!el.dataset.orig) el.dataset.orig = el.innerHTML;
+            });
+            console.log('[i18n] stored originals for', elems.length, 'elements');
+        }
+
+        // Replace only text nodes inside element, preserving child elements (icons, images)
+        function replaceTextNodes(el, newText){
+            // find significant text nodes
+            const textNodes = [];
+            el.childNodes.forEach(n => {
+                if(n.nodeType === Node.TEXT_NODE && n.nodeValue.trim()) textNodes.push(n);
+            });
+            if(textNodes.length){
+                // put the whole newText in the first text node, clear others
+                textNodes[0].nodeValue = newText;
+                for(let i=1;i<textNodes.length;i++) textNodes[i].nodeValue = '';
+            } else {
+                // append a text node (safe)
+                el.appendChild(document.createTextNode(newText));
+            }
+        }
+
+        function translateElementHtmlSafe(el, lang){
+            const orig = el.dataset.orig || el.innerHTML;
+            if(lang === 'es'){
+                el.innerHTML = orig;
+                return;
+            }
+
+            // If original contains HTML tags, avoid setting innerHTML; replace text nodes only.
+            if(/<[^>]+>/.test(orig)){
+                // compute translated text by replacing known phrases in the original textContent
+                let text = el.textContent || '';
+                for(const key in translations){
+                    if(!Object.prototype.hasOwnProperty.call(translations, key)) continue;
+                    text = text.split(key).join(translations[key]);
+                }
+                replaceTextNodes(el, text);
+            } else {
+                // safe to replace full HTML
+                let html = orig;
+                for(const key in translations){
+                    if(!Object.prototype.hasOwnProperty.call(translations, key)) continue;
+                    html = html.split(key).join(translations[key]);
+                }
+                el.innerHTML = html;
+            }
+        }
+
+        function applyLang(lang){
+            console.log('[i18n] applyLang ->', lang);
+            const els = document.querySelectorAll('[data-orig]');
+            els.forEach(el=>{
+                try{
+                    translateElementHtmlSafe(el, lang);
+                }catch(e){
+                    console.error('[i18n] error translating element', el, e);
+                    // safety: fall back to original
+                    if(lang === 'es') el.innerHTML = el.dataset.orig;
+                }
+            });
+            localStorage.setItem('siteLang', lang);
+            // update button styles
+            document.querySelectorAll('.lang-btn').forEach(b=>{
+                if(b.dataset.lang === lang){
+                    b.style.background = 'var(--secondary)';
+                    b.style.color = 'var(--dark)';
+                } else {
+                    b.style.background = 'transparent';
+                    b.style.color = 'var(--light)';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            console.log('[i18n] DOMContentLoaded');
+            storeOriginals();
+            const esBtn = document.getElementById('lang-es');
+            const enBtn = document.getElementById('lang-en');
+            
+            if(esBtn) esBtn.addEventListener('click', ()=> { 
+                console.log('[i18n] ES clicked'); 
+                applyLang('es'); 
+            });
+            
+            const saved = localStorage.getItem('siteLang') || 'es';
+            console.log('[i18n] saved language', saved);
+            applyLang(saved);
+        });
+    })();
     </script>
 </body>
 </html>
