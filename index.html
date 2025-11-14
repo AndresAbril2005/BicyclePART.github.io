@@ -2423,6 +2423,61 @@
                     transform: translateY(-1px);
                 }
 
+                /* Small overrides: make catalog nicer on mobile and enhance modal presentation */
+                /* Mobile: show 2 columns instead of 3 for the catalog */
+                @media (max-width: 700px) {
+                    .catalogo-grid {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                        gap: 12px !important;
+                    }
+                }
+
+                /* Modal visual upgrade: frosted backdrop, larger container, elegant shadows */
+                .catalogo-modal {
+                    /* lighter overlay so backdrop-filter can show subtle blur */
+                    background: rgba(0, 0, 0, 0.6) !important;
+                    backdrop-filter: blur(6px);
+                    -webkit-backdrop-filter: blur(6px);
+                }
+
+                .modal-image-container {
+                    padding: 22px;
+                    border-radius: 14px;
+                    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+                    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+                    max-width: 1100px !important;
+                    max-height: 90vh !important;
+                }
+
+                .modal-image-container img {
+                    border-radius: 12px;
+                    box-shadow: 0 40px 120px rgba(0,0,0,0.75);
+                    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease;
+                    will-change: transform;
+                    max-height: 80vh !important;
+                    object-fit: contain !important;
+                }
+
+                /* Subtle reflection overlay for premium look */
+                .modal-image-container::after {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    border-radius: 14px;
+                    pointer-events: none;
+                    background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 35%);
+                }
+
+                /* Slightly stronger carousel nav styling on modal */
+                .catalogo-modal .carousel-nav {
+                    background: rgba(255,255,255,0.12) !important;
+                    border-color: rgba(255,255,255,0.08) !important;
+                    color: var(--light) !important;
+                    width: 56px !important;
+                    height: 56px !important;
+                    font-size: 26px !important;
+                }
+
             </style>
     </head>
     <script>
@@ -4289,7 +4344,7 @@ Elegancia y diversión en cada pedaleo.</p>
             const card3 = document.querySelector('.card3');
             const mapsBtn = document.querySelector('#maps-button');
             
-            if (card1) card1.addEventListener('click', () => window.open('https://instagram.com/bicycleparts', '_blank'));
+            if (card1) card1.addEventListener('click', () => window.open('https://www.instagram.com/bicicle_parts?igsh=MW1yZnp1N2JrM2hjMw==', '_blank'));
             if (card2) card2.addEventListener('click', () => window.open('https://www.facebook.com/share/16VbJnNf7P/?mibextid=wwXIfr', '_blank'));
             if (card3) card3.addEventListener('click', () => window.open('https://wa.me/573224167942', '_blank'));
             if (mapsBtn) mapsBtn.addEventListener('click', () => window.open('https://www.google.com/maps/search/?api=1&query=Calle+44+%23+6+-+02+Yopal+Casanare', '_blank'));
@@ -4811,6 +4866,181 @@ Elegancia y diversión en cada pedaleo.</p>
             console.log('[i18n] saved language', saved);
             applyLang(saved);
         });
+    })();
+    </script>
+    <script>
+    // Advanced modal image UX: double-click/double-tap to zoom, drag-to-pan, pinch-to-zoom, escape/reset, and reset on modal close
+    (function(){
+        const modal = document.getElementById('catalogoModal');
+        const modalImg = document.getElementById('catalogoModalImage');
+        const container = document.querySelector('.modal-image-container');
+        if(!modal || !modalImg || !container) return;
+
+        // State
+        let scale = 1;
+        const MIN_SCALE = 1;
+        const MAX_SCALE = 3;
+        let translateX = 0, translateY = 0;
+        let startX = 0, startY = 0;
+        let dragging = false;
+        let pinch = false;
+        let initialPinchDistance = 0;
+        let initialScale = 1;
+
+        // Visual tweaks
+        modalImg.style.transition = 'transform 280ms cubic-bezier(.22,1,.36,1)';
+        container.style.touchAction = 'none'; // we'll manage touch gestures
+
+        function applyTransform(){
+            modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        function clampTranslate(){
+            // compute bounds based on element sizes
+            const cw = container.clientWidth;
+            const ch = container.clientHeight;
+            const iw = modalImg.clientWidth * scale;
+            const ih = modalImg.clientHeight * scale;
+            const maxX = Math.max(0, (iw - cw) / 2);
+            const maxY = Math.max(0, (ih - ch) / 2);
+            translateX = Math.max(-maxX, Math.min(maxX, translateX));
+            translateY = Math.max(-maxY, Math.min(maxY, translateY));
+        }
+
+        function resetZoom(){
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            applyTransform();
+            modalImg.style.cursor = 'zoom-in';
+        }
+
+        function zoomTo(factor, centerX = null, centerY = null){
+            // Optional centering logic: if center coords provided, adjust translate so zoom focuses around that point
+            const prevScale = scale;
+            scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, factor));
+
+            if(centerX !== null && centerY !== null){
+                // Convert center to image-local coordinates
+                const rect = modalImg.getBoundingClientRect();
+                const offsetX = centerX - rect.left - rect.width/2 - translateX;
+                const offsetY = centerY - rect.top - rect.height/2 - translateY;
+                // Adjust translate so that the point under cursor remains approximately under cursor after scale change
+                translateX -= offsetX * (scale/prevScale - 1);
+                translateY -= offsetY * (scale/prevScale - 1);
+            }
+
+            clampTranslate();
+            applyTransform();
+            modalImg.style.cursor = (scale > 1) ? 'grab' : 'zoom-in';
+        }
+
+        // Double click / double tap toggles
+        let lastTap = 0;
+        modalImg.addEventListener('click', (e)=>{
+            const now = Date.now();
+            if(now - lastTap < 300){
+                // double click
+                if(scale > 1.05) resetZoom(); else zoomTo(2, e.clientX, e.clientY);
+                lastTap = 0;
+            } else {
+                lastTap = now;
+            }
+        });
+
+        // Pointer (mouse & stylus & touch single pointer) drag handling
+        modalImg.addEventListener('pointerdown', (e) => {
+            if(e.pointerType === 'mouse' && e.button !== 0) return; // only left click
+            modalImg.setPointerCapture(e.pointerId);
+            dragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            modalImg.style.transition = 'none';
+            modalImg.style.cursor = 'grabbing';
+        });
+
+        modalImg.addEventListener('pointermove', (e) => {
+            if(!dragging || pinch) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            startX = e.clientX; startY = e.clientY;
+            // Only pan when zoomed
+            if(scale > 1){
+                translateX += dx;
+                translateY += dy;
+                clampTranslate();
+                applyTransform();
+            }
+        });
+
+        modalImg.addEventListener('pointerup', (e) => {
+            dragging = false;
+            modalImg.releasePointerCapture && modalImg.releasePointerCapture(e.pointerId);
+            modalImg.style.transition = 'transform 220ms cubic-bezier(.22,1,.36,1)';
+            modalImg.style.cursor = (scale > 1) ? 'grab' : 'zoom-in';
+        });
+        modalImg.addEventListener('pointercancel', (e) => {
+            dragging = false;
+            modalImg.style.transition = 'transform 220ms cubic-bezier(.22,1,.36,1)';
+            modalImg.style.cursor = (scale > 1) ? 'grab' : 'zoom-in';
+        });
+
+        // Touch pinch handlers (fallback simple implementation)
+        container.addEventListener('touchstart', (e)=>{
+            if(e.touches.length === 2){
+                pinch = true;
+                initialPinchDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialScale = scale;
+            }
+        }, {passive: true});
+
+        container.addEventListener('touchmove', (e)=>{
+            if(pinch && e.touches.length === 2){
+                const currentDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                const factor = currentDistance / initialPinchDistance;
+                zoomTo(Math.max(MIN_SCALE, Math.min(MAX_SCALE, initialScale * factor)));
+            }
+        }, {passive: false});
+
+        container.addEventListener('touchend', (e)=>{
+            if(e.touches.length < 2) pinch = false;
+        });
+
+        // Keyboard: Escape resets zoom if zoomed
+        document.addEventListener('keydown', (e)=>{
+            if(e.key === 'Escape' && scale > 1){
+                resetZoom();
+            }
+        });
+
+        // Reset when modal is closed
+        const mo = new MutationObserver(()=>{
+            if(!modal.classList.contains('active')){
+                resetZoom();
+            }
+        });
+        mo.observe(modal, { attributes: true });
+
+        // Small parallax on mousemove for premium feel (only when not zoomed)
+        container.addEventListener('mousemove', (e)=>{
+            if(scale > 1) return;
+            const rect = container.getBoundingClientRect();
+            const px = (e.clientX - rect.left) / rect.width - 0.5;
+            const py = (e.clientY - rect.top) / rect.height - 0.5;
+            const tx = px * 6; // subtle
+            const ty = py * 6;
+            modalImg.style.transform = `translate(${tx}px, ${ty}px) scale(1)`;
+        });
+        container.addEventListener('mouseleave', ()=>{
+            if(scale === 1) modalImg.style.transform = 'translate(0px, 0px) scale(1)';
+        });
+
     })();
     </script>
 </body>
