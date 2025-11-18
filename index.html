@@ -64,6 +64,10 @@
                 .modal-details {
                     flex: 1;
                     color: var(--light);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
                 }
 
                 .modal-close {
@@ -1177,6 +1181,18 @@
   object-fit: contain;
 }
 
+                /* Language button glow for active language */
+                .lang-btn {
+                    transition: box-shadow 180ms ease, border-color 180ms ease, transform 120ms ease;
+                }
+
+                .lang-btn.active {
+                    border-color: var(--secondary) !important;
+                    box-shadow: 0 0 18px 4px rgba(57,255,20,0.14), inset 0 0 8px rgba(57,255,20,0.06);
+                    transform: translateY(-1px);
+                    background: linear-gradient(90deg, rgba(57,255,20,0.06), rgba(57,255,20,0.02));
+                }
+
         
                 .social-links {
                     display: flex;
@@ -1200,15 +1216,45 @@
                 .social-links a:hover {
                     background-color: var(--secondary);
                 }
-        
+
+                footer {
+                    background-color: var(--primary);
+                    border-top: 1px solid var(--gray);
+                    padding: 40px 0 20px;
+                    margin-top: 60px;
+                }
+
                 .copyright {
                     text-align: center;
-                    padding-top: 30px;
-                    border-top: 1px solid var(--gray);
                     font-size: 14px;
                     color: #999;
+                    margin: 0;
+                    padding: 20px;
+                    word-wrap: break-word;
                 }
-        
+
+                .copyright p {
+                    margin: 0;
+                    padding: 0;
+                    line-height: 1.6;
+                }
+
+                /* Mobile footer adjustments */
+                @media (max-width: 768px) {
+                    footer {
+                        padding: 30px 10px 20px;
+                    }
+
+                    .copyright {
+                        font-size: 12px;
+                        padding: 15px 10px;
+                    }
+
+                    .copyright p {
+                        word-break: break-word;
+                        overflow-wrap: break-word;
+                    }
+                }
                 /* Botón de redes sociales lateral */
                 .social-menu {
                     position: fixed;
@@ -2015,6 +2061,41 @@
     text-align: center;
 }
 
+/* Search wrapper and go button */
+.catalogo-search-wrapper {
+    display: inline-flex;
+    align-items: center;
+}
+
+.catalogo-go-btn {
+    --g: rgba(57,255,20,0.12);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(57,255,20,0.25);
+    background: transparent;
+    color: var(--secondary);
+    cursor: pointer;
+    transition: background 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+}
+
+.catalogo-go-btn:hover {
+    background: rgba(57,255,20,0.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    transform: translateY(-1px);
+}
+
+/* Highlight animation when a searched product is brought to top */
+.catalogo-grid .vehicle-card.highlight {
+    animation: highlightFlash 1.1s ease forwards;
+    z-index: 50;
+}
+
+@keyframes highlightFlash {
+    0% { box-shadow: 0 0 0 rgba(0,212,170,0); transform: translateY(0); }
+    40% { box-shadow: 0 18px 40px rgba(0,212,170,0.18); transform: translateY(-8px); }
+    100% { box-shadow: 0 8px 20px rgba(0,212,170,0.12); transform: translateY(0); }
+}
+
 @media (max-width: 768px) {
   .catalogo-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -2640,7 +2721,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
                              <!-- Language selector -->
                              <div class="lang-switcher" style="display:flex;gap:8px;align-items:center;margin-left:12px;">
-                                     <button id="lang-es" class="lang-btn" data-lang="es" aria-label="Español" style="background:#39FF14;border:1px solid #39FF14;color:#000000;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;">ES</button>
+                                     <button id="lang-es" class="lang-btn" data-lang="es" aria-label="Español" onclick="window.location.href='./index.html';" style="background:#39FF14;border:1px solid #39FF14;color:#000000;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;">ES</button>
                                      <button id="lang-en" class="lang-btn" data-lang="en" aria-label="English" onclick="window.location.href='./ingles.html';" style="background:transparent;border:1px solid rgba(255,255,255,0.08);color:var(--light);padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;">EN</button>
                              </div>
                 <nav>
@@ -2657,6 +2738,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         <li><a href="#" onclick="showPage('nuevos')">Nuevos Lanzamientos</a></li>-->
                     </ul>
                 </nav>
+
             </div>
         </header>
 
@@ -2678,7 +2760,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     <h2>Bicicletas Destacadas</h2>
                     <p>Selección exclusiva de las mejores bicicletas del mercado</p>
                 </div>
-                
+             
                 <div class="vehicles-grid">
                     <!-- GW Scorpion -->
                     <div class="vehicle-card">
@@ -2687,17 +2769,17 @@ document.addEventListener('DOMContentLoaded', function(){
                         </div>
                         <div class="vehicle-info">
                             <h3>GW 060739</h3>
-                            <div class="price">$1,299</div>
+                            <div class="price">$620,000</div>
                             <div class="features">
                                 <span><i class="fas fa-cog"></i> 2 Vel</span>
                                 <span><i class="fas fa-weight"></i> 7 kg</span>
                                 <span><i class="fas fa-mountain"></i> MTB</span>
                             </div>
                             <p>Perfecta para quienes disfrutan el camino, no solo la meta.</p>
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/ABLANCOAMARILLO.webp',
                                 'GW 060739',
-                                '$1,299',
+                                '$620,000',
                                 'Perfecta para quienes disfrutan el camino, no solo la meta.',
                                 [
                                     {icon: 'fas fa-cog', text: '2 Velocidades Shimano'},
@@ -2717,7 +2799,7 @@ document.addEventListener('DOMContentLoaded', function(){
                             )">Consultar</button>
                         </div>
                     </div>
-                    
+           
                     <!-- Trek Fuel EX 9.9 -->
                     <div class="vehicle-card">
                         <div class="vehicle-image">
@@ -2725,17 +2807,17 @@ document.addEventListener('DOMContentLoaded', function(){
                         </div>
                         <div class="vehicle-info">
                             <h3>CLASSIC 060748</h3>
-                            <div class="price">$2,499</div>
+                            <div class="price">$450,000</div>
                             <div class="features">
                                 <span><i class="fas fa-cog"></i> 2 Vel</span>
                                 <span><i class="fas fa-weight"></i> 8 kg</span>
                                 <span><i class="fas fa-mountain"></i> Trail</span>
                             </div>
                             <p>Rueda con clase, pedalea con calma.</p>
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/DBLANCO.webp',
                                 'CLASSIC 060748',
-                                '$327,000',
+                                '$450,000',
                                 'Rueda con clase, pedalea con calma.',
                                 [
                                     {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
@@ -2761,17 +2843,17 @@ document.addEventListener('DOMContentLoaded', function(){
                         </div>
                         <div class="vehicle-info">
                             <h3>KIDS 060355</h3>
-                            <div class="price">$3,299</div>
+                            <div class="price">$420,000</div>
                             <div class="features">
                                 <span><i class="fas fa-cog"></i> 2 Vel</span>
                                 <span><i class="fas fa-weight"></i> 6 kg</span>
                                 <span><i class="fas fa-road"></i> Ruta</span>
                             </div>
                             <p>Pedalea suave, rueda con estilo. ¡Tu bicicleta de los sueños!.</p>
-                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/ABLANCOAMARILLO.webp',
                                 'GW 060747',
-                                '$280,000',
+                                '$420,000',
                                 'Pedalea suave, rueda con estilo.    ¡Tu bicicleta de los sueños!.',
                                 [
                                     {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
@@ -2816,7 +2898,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         </div>
                         <div class="vehicle-info">
                             <h3>GW 060739</h3>
-                            <div class="price">$1,299</div>
+                            <div class="price">$620,000</div>
                             <div class="features">
                                 <span><i class="fas fa-cog"></i> 3 Vel</span>
                                 <span><i class="fas fa-weight"></i> 10 kg</span>
@@ -2824,10 +2906,10 @@ document.addEventListener('DOMContentLoaded', function(){
                             </div>
                             <p>Domina el camino con estilo. Ligera, ágil y lista para la aventura.
 Ideal para quien busca diversión sobre dos ruedas.</p>
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/ABLANCOAMARILLO.webp',
                                 'GW 060739',
-                                '$1,299',
+                                '$620,000',
                                 'Domina el camino con estilo. Ligera, ágil y lista para la aventura. Ideal para quien busca diversión sobre dos ruedas.',
                                 [
                                     {icon: 'fas fa-bicycle', text: 'Cuadro de Aluminio Ultraligero'},
@@ -2862,7 +2944,7 @@ Ideal para quien busca diversión sobre dos ruedas.</p>
                             </div>
                             <p>Pura adrenalina y elegancia. Velocidad que emociona, diseño que impresiona.
 Para los que exigen máximo rendimiento.</p>
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/ABLANCOAMARILLO.webp',
                                 'GW 060728',
                                 '$280,000',
@@ -2900,7 +2982,7 @@ Para los que exigen máximo rendimiento.</p>
                             <p>Estilo y sofisticación en cada curva. Conduce la "Dolce Vita" sobre ruedas.
 Elegancia que conquista miradas.".</p>
                             
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/CBLANCO.webp',
                                 'GW 060750',
                                 '$247,000',
@@ -2935,7 +3017,7 @@ Elegancia que conquista miradas.".</p>
                             </div>
                             <p>Domina el asfalto. Tu nueva máquina de velocidad, diseñada para volar.</p>
                             
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/CBLANCO.webp',
                                 'Bicicleta MTB 26P 3X6 Vel Suspension Travel GW 060750',
                                 '$520,000',
@@ -2972,7 +3054,7 @@ Elegancia que conquista miradas.".</p>
                             </div>
                             <p>La aventura te espera. Diseñada para la exploración en caminos diversos.".</p>
                             
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/CBLANCO.webp',
                                 'GW 060750',
                                 '$720,000',
@@ -3008,7 +3090,7 @@ Elegancia que conquista miradas.".</p>
                             </div>
                             <p>Conecta con tu ciudad. De paseo o al trabajo, cada trayecto es un gusto.</p>
                             
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/CBLANCO.webp',
                                 'GW 060750',
                                 '$720,000',
@@ -3184,17 +3266,17 @@ Elegancia que conquista miradas.".</p>
                         </div>
                         <div class="vehicle-info">
                             <h3>CLASSIC 060748</h3>
-                            <div class="price">$327,000</div>
+                            <div class="price">$450,000</div>
                             <div class="features">
                                 <span><i class="fas fa-cog"></i> 5 Vel</span>
                                 <span><i class="fas fa-weight"></i> 10 kg</span>
                                 <span><i class="fas fa-mountain"></i> MTB</span>
                             </div>
                             <p>Rueda con clase, pedalea con calma.</p>
-                               <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                               <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/DBLANCO.webp',
                                 'CLASSIC 060748',
-                                '$327,000',
+                                '$450,000',
                                 'Rueda con clase, pedalea con calma.',
                                 [
                                     {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
@@ -3339,7 +3421,7 @@ Elegancia que conquista miradas.".</p>
                             </div>
                             <p>¡Pequeños grandes aventureros! Ligera y rápida, para conquistar todos los caminos.
 Diversión sobre ruedas con estilo competitivo.</p>
-                          <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                          <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/ABLANCOAMARILLO.webp',
                                 'KIDS 060355',
                                 '$280,000',
@@ -3375,7 +3457,7 @@ Diversión sobre ruedas con estilo competitivo.</p>
                         </div>
                         <div class="vehicle-info">
                             <h3>Kids 060747</h3>
-                            <div class="price">$280,000</div>
+                            <div class="price">$420,000</div>
                             <div class="features">
                                 <span><i class="fas fa-cog"></i> 2 Vel</span>
                                 <span><i class="fas fa-weight"></i> 8 kg</span>
@@ -3383,10 +3465,10 @@ Diversión sobre ruedas con estilo competitivo.</p>
                             </div>
                             <p>¡Pequeñas campeonas en acción! Velocidad y ligereza para volar sobre el asfalto.
 Elegancia y diversión en cada pedaleo.</p>
-                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './img/ABLANCOAMARILLO.webp',
                                 'GW 060747',
-                                '$280,000',
+                                '$420,000',
                                 'Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.',
                                 [
                                     {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
@@ -3409,8 +3491,8 @@ Elegancia y diversión en cada pedaleo.</p>
                             <img src="./imgCiclas/z3.webp" alt="Specialized Tarmac">
                         </div>
                         <div class="vehicle-info">
-                            <h3>Kids 060747</h3>
-                            <div class="price">$280,000</div>
+                            <h3>Kids 060397</h3>
+                            <div class="price">$218,000</div>
                             <div class="features">
                                 <span><i class="fas fa-cog"></i> 2 Vel</span>
                                 <span><i class="fas fa-weight"></i> 8 kg</span>
@@ -3418,10 +3500,10 @@ Elegancia y diversión en cada pedaleo.</p>
                             </div>
                             <p>¡Pequeñas campeonas en acción! Velocidad y ligereza para volar sobre el asfalto.
 Elegancia y diversión en cada pedaleo.</p>
-                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                             <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 './imgCiclas/z3.webp',
-                                'GW 060747',
-                                '$280,000',
+                                'GW 060397',
+                                '$218,000',
                                 'Bicicleta de alto rendimiento con geometría optimizada y componentes de primera.',
                                 [
                                     {icon: 'fas fa-cog', text: 'Grupo Shimano de 2 velocidades'},
@@ -3659,15 +3741,18 @@ Elegancia y diversión en cada pedaleo.</p>
       </div>
 
       <!-- Search/Filter Box -->
-      <div style="margin: 30px 0; text-align: center;">
-        <input 
-          type="text" 
-          id="catalogoSearch" 
-          placeholder="🔍 Busca un artículo (ej: Cadena, Cascos...)" 
-          style="width: 90%; max-width: 600px; padding: 12px 15px; font-size: 16px; border: 1px solid rgba(57,255,20,0.3); border-radius: 8px; background: rgba(0,0,0,0.3); color: #fff; outline: none; transition: all 0.3s ease;"
-          onkeyup="filterCatalog()"
-        />
-      </div>
+            <div style="margin: 30px 0; text-align: center;">
+                <div class="catalogo-search-wrapper" style="display:inline-flex; align-items:center; gap:8px;">
+                    <input 
+                        type="text" 
+                        id="catalogoSearch" 
+                        placeholder="🔍 Busca un artículo (ej: Cadena, Cascos...)" 
+                        style="width: 90%; max-width: 520px; padding: 12px 15px; font-size: 16px; border: 1px solid rgba(57,255,20,0.3); border-radius: 8px; background: rgba(0,0,0,0.3); color: #fff; outline: none; transition: all 0.3s ease;"
+                        oninput="filterCatalog()"
+                    />
+                    <button id="catalogoGoBtn" class="catalogo-go-btn" title="Ir a primera coincidencia" aria-label="Ir a primera coincidencia" style="padding:10px 14px; border-radius:8px; border:1px solid rgba(57,255,20,0.25); background:transparent; color:var(--secondary); cursor:pointer;">Ir</button>
+                </div>
+            </div>
 
       <div class="vehicles-grid catalogo-grid">
 
@@ -3760,7 +3845,7 @@ Elegancia y diversión en cada pedaleo.</p>
                             <div class="price">$65.000</div>
                          
                             <p>Casco MTB Mantis GW Talla M para hombre y M para mujer</p>
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 '/imgCATALOGO/c9.webp',
                                 'Casco MTB Mantis GW',
                                 '$65.000',
@@ -3794,7 +3879,7 @@ Elegancia y diversión en cada pedaleo.</p>
                             <div class="price">$65.000</div>
                          
                             <p>Botella  550 ML</p>
-                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="openProductModal(
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
                                 '/imgCATALOGO/c16.webp',
                                 'Botella  550 ML',
                                 '$65.000',
@@ -3895,7 +3980,7 @@ Elegancia y diversión en cada pedaleo.</p>
                         </div>  
                     
                     </div>
-                         <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c26.jpeg', 'Desviador trasero MTB 6/7 Vel H50 Negro Millenium', '$27,000')">
+                         <div class="vehicle-card" onclick="openCatalogoModal(' ./imgCATALOGO/c26.webp', 'Desviador trasero MTB 6/7 Vel H50 Negro Millenium', '$27,000')">
                         <div class="vehicle-image">
                             <img src="./imgCATALOGO/c26.webp" alt="Desviador trasero MTB 6/7 Vel H50 Negro Millenium">
                         </div>
@@ -4012,6 +4097,978 @@ Elegancia y diversión en cada pedaleo.</p>
                          <h3>Sillin BMX cremallera junior 12P 140MM Wild Rider Colores GW</h3>
                             <div class="price">$20.000</div>
                         </div> 
+                         </div>
+                         
+                         <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Palanca de Freno y Manillares</h2>
+</div>
+                         </div>
+
+   <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./frenor/f1.webp" alt="Juego de Freno V-Brake plástico colores Millenium" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Juego de Freno V-Brake plástico colores Millenium</h3>
+                            <div class="price">$35.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Juego de Freno V-Brake plástico colores Millenium',
+                                '$35.000',
+                                'Juego de Freno V-Brake plástico colores Millenium',
+                                [],
+                                [
+                                    {name: 'Verde', image: './frenor/f2.webp', swatch: '#008000'},
+                                    {name: 'Morado', image: './frenor/f1.webp', swatch: '#800080'},
+                                    {name: 'Amarillo', image: './frenor/f5.webp', swatch: '#FFFF00'},
+                                    {name: 'Rojo', image: './frenor/f3.webp', swatch: '#FF0000'},
+                                    {name: 'Azul Cielo', image: './frenor/f4.webp', swatch: '#87CEEB'},
+                                    {name: 'Rosa', image: './frenor/f6.webp', swatch: '#FFC0CB'}
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+
+
+<div class="vehicle-card" onclick="openCatalogoModal(' ./frenor/x8 (1).webp', 'Integrado manilar ST-EF500 3x7 Vel', '$150,000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x8 (1).webp" alt="Integrado manilar ST-EF500 3x7 Vel">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Integrado manilar ST-EF500 3x7 Vel</h3>
+                            
+                            <div class="price">$150,000</div>
+                        </div>
+                    </div>
+                     
+                         <div class="vehicle-card" onclick="openCatalogoModal('./frenor/x1 (1).webp', 'Integrado manilares / Palancas ST-EF41 3X7 Vel', '$115.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x1 (1).webp" alt="Integrado manilares / Palancas ST-EF41 3X7 Vel ">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Integrado manilares / Palancas ST-EF41 3X7 Vel</h3>
+                            <div class="price">$115.000</div>
+                        </div> 
+                         </div>
+
+                                 <div class="vehicle-card" onclick="openCatalogoModal('./frenor/x2 (1).webp', 'Integrado palancas 8 Vel SL-M3 15-3X8 Vel SHIMANO', '$165.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x2 (1).webp" alt="Integrado palancas 8 Vel SL-M3 15-3X8 Vel SHIMANO ">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Integrado palancas 8 Vel SL-M3 15-3X8 Vel SHIMANO</h3>
+                            <div class="price">$165.000</div>
+                        </div> 
+                         </div>
+
+
+                                <div class="vehicle-card" onclick="openCatalogoModal('./frenor/x3 (1).webp', 'Palancas de freno / Cambio MTB 3X7 Vel SP-N03 Millenium', '$57.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x3 (1).webp" alt="Palancas de freno / Cambio MTB 3X7 Vel SP-N03 Millenium ">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Palancas de freno / Cambio MTB 3X7 Vel SP-N03 Millenium</h3>
+                            <div class="price">$57.000</div>
+                        </div> 
+                         </div>
+
+                         <div class="vehicle-card" onclick="openCatalogoModal('./frenor/p1.webp', 'Palancas de freno / Cambio MTB 3X7 Vel SP-N01 Millenium', '$55.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/p1.webp" alt="Palancas de freno / Cambio MTB 3X7 Vel SP-N01 Millenium ">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Palancas de freno / Cambio MTB 3X7 Vel SP-N01 Millenium</h3>
+                            <div class="price">$55.000</div>
+                        </div> 
+                         </div>
+
+
+                                  <div class="vehicle-card" onclick="openCatalogoModal('./frenor/x4 (1).webp', 'Juego de Freno Cantilever brake plástico Millenium', '$55.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x4 (1).webp" alt="Juego de Freno Cantilever brake plástico Millenium">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de Freno Cantilever brake plástico Millenium</h3>
+                            <div class="price">$55.000</div>
+                        </div> 
+                         </div>
+
+                         
+                                  <div class="vehicle-card" onclick="openCatalogoModal('./frenor/x5 (1).webp', 'Juego de Freno Brake Aluminio natural Logan', '$52.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x5 (1).webp" alt="Juego de Freno Brake Aluminio natural Logan">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de Freno Brake Aluminio natural Logan</h3>
+                            <div class="price">$52.000</div>
+                        </div> 
+                         </div>
+
+                                     <div class="vehicle-card" onclick="openCatalogoModal('./frenor/x6 (1).webp', 'Juego de Freno Brake Aluminio negro Logan', '$53.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x6 (1).webp" alt="Juego de Freno Brake Aluminio negro Logan">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de Freno Brake Aluminio negro Logan</h3>
+                            <div class="price">$53.000</div>
+                        </div> 
+                         </div>
+
+
+                                     <div class="vehicle-card" onclick="openCatalogoModal('./frenor/x7 (1).webp', 'Juego de Freno pinzas Acero Logan', '$35.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/x7 (1).webp" alt="Juego de Freno pinzas Acero Logan">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de Freno pinzas Acero Logan</h3>
+                            <div class="price">$35.000</div>
+                        </div> 
+                         </div>
+
+                          <div class="vehicle-card" onclick="openCatalogoModal('./frenor/aa1.webp', 'Mordazas para freno LB-DX2019 F/R Negro Logan', '$45.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/aa1.webp" alt="Mordazas para freno LB-DX2019 F/R Negro Logan">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Mordazas para freno LB-DX2019 F/R Negro Logan</h3>
+                            <div class="price">$45.000</div>
+                        </div> 
+                         </div>
+
+                          <div class="vehicle-card" onclick="openCatalogoModal('./frenor/aa2.webp', 'Juego de cambios MTB Aluminio/Acero Millenium', '$55.000')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/aa2.webp" alt="Juego de cambios MTB Aluminio/Acero Millenium">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Mordazas para freno LB-DX2019 F/R Negro Logan</h3>
+                            <div class="price">$55.000</div>
+                        </div> 
+                         </div>
+                           <div class="vehicle-card" onclick="openCatalogoModal('./frenor/aa4.webp', 'Palancas de freno MTB brake 2 dedos aluminio Negro/Cromado', '$19.500')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/aa4.webp" alt="Palancas de freno MTB brake 2 dedos aluminio Negro/Cromado">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Palancas de freno MTB brake 2 dedos aluminio Negro/Cromado</h3>
+                            <div class="price">$19.500</div>
+                        </div> 
+                         </div>
+                           <div class="vehicle-card" onclick="openCatalogoModal('./frenor/aa3.webp', 'Palancas de freno MTB Cantilever 3 dedos aluminio Negro/Cromado', '$18.200')">
+                        <div class="vehicle-image">
+                            <img src="./frenor/aa3.webp" alt="Palancas de freno MTB Cantilever 3 dedos aluminio Negro/Cromado">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Palancas de freno MTB Cantilever 3 dedos aluminio Negro/Cromado</h3>
+                            <div class="price">$18.200</div>
+                        </div> 
+                         </div>
+        <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Direccion de Centros y Rodajas</h2>
+</div>
+        </div>
+            <div class="vehicle-card" onclick="openCatalogoModal('./direccionales/j1.webp', 'Juego de centro 3P BSA 1.37X24T Acero negro Neco', '$15.000')">
+                        <div class="vehicle-image">
+                            <img src="./direccionales/j1.webp" alt="Juego de centro 3P BSA 1.37X24T Acero negro Neco ">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de centro 3P BSA 1.37X24T Acero negro Neco</h3>
+                            <div class="price">$15.000</div>
+                        </div> 
+                         </div>
+ <div class="vehicle-card" onclick="openCatalogoModal('./direccionales/j2.webp', 'Juego de centro Americano 9P 51.5MM - 5/16X9', '$23.000')">
+                        <div class="vehicle-image">
+                            <img src="./direccionales/j2.webp" alt="Juego de centro Americano 9P 51.5MM - 5/16X9 ">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de centro Americano 9P 51.5MM - 5/16X9</h3>
+                            <div class="price">$23.000</div>
+                        </div> 
+                         </div>
+ <div class="vehicle-card" onclick="openCatalogoModal('./direccionales/jj6.webp', 'Juego de direccion externo 25.4MM/ 1P Acero cromado Neco', '$22.000')">
+                        <div class="vehicle-image">
+                            <img src="./direccionales/jj6.webp" alt="Juego de direccion externo 25.4MM/ 1P Acero cromado Neco ">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de direccion externo 25.4MM/ 1P Acero cromado Neco</h3>
+                            <div class="price">$22.000</div>
+                        </div> 
+                         </div>
+ <div class="vehicle-card" onclick="openCatalogoModal('./direccionales/j3.webp', 'Rodajas TY-05/15/18/20/22 6/7 Vel Shimano', '$15.000')">
+                        <div class="vehicle-image">
+                            <img src="./direccionales/j3.webp" alt="Rodajas TY-05/15/18/20/22 6/7 Vel Shimano">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Rodajas TY-05/15/18/20/22 6/7 Vel Shimano</h3>
+                            <div class="price">$15.000</div>
+                        </div> 
+                         </div>
+                          <div class="vehicle-card" onclick="openCatalogoModal('./direccionales/j4.webp', 'Juego de dirección  9P Integrado 1-1/8x1.5 QLP-40 GW', '$42.000')">
+                        <div class="vehicle-image">
+                            <img src="./direccionales/j4.webp" alt="Juego de dirección  9P Integrado 1-1/8x1.5 QLP-40 GW">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de dirección  9P Integrado 1-1/8x1.5 QLP-40 GW</h3>
+                            <div class="price">$42.000</div>
+                        </div> 
+                         </div>
+
+
+                               <div class="vehicle-card" onclick="openCatalogoModal('./direccionales/j5.webp', 'Juego de dirección semi-integrado 1-1/8 QLP-31A GW', '$22.000')">
+                        <div class="vehicle-image">
+                            <img src="./direccionales/j5.webp" alt="Juego de dirección semi-integrado 1-1/8 QLP-31A GW">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Juego de dirección semi-integrado 1-1/8 QLP-31A GW</h3>
+                            <div class="price">$22.000</div>
+                        </div> 
+                         </div>      
+                         
+                         
+                         <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Llantas</h2>
+</div>
+        </div>
+
+        <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF1.webp" alt="Llanta infantil 12X1/2x21/4 Ponely" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Llanta infantil 12X1/2x21/4 Ponely</h3>
+                            <div class="price">$28.500</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Llanta infantil 12X1/2x21/4 Ponely',
+                                '$28.500',
+                                'Llanta infantil 12X1/2x21/4 Ponely',
+                                [],
+                                [
+                           
+                                    {name: 'Morado', image: './LLANTASR/FF1.webp', swatch: '#800080'},
+                            
+                                    {name: 'Rosa', image: './LLANTASR/FF4.webp', swatch: '#FFC0CB'}
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+                      <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF1.webp" alt="Llanta infantil 16X2,125 Ponely" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Llanta infantil 16X2,125 Ponely</h3>
+                            <div class="price">$32.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Llanta infantil 16X2,125 Ponely',
+                                '$32.000',
+                                'Llanta infantil 16X2,125 Ponely',
+                                [],
+                                [
+                           
+                                    {name: 'Morado', image: './LLANTASR/FF1.webp', swatch: '#800080'},
+                            
+                                    {name: 'Rosa', image: './LLANTASR/FF4.webp', swatch: '#FFC0CB'}
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+            <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF2.webp', 'Llanta 20x2,125 colores Ponelly', '$33.500')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF2.webp" alt="Llanta 20x2,125 colores Ponelly">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta 20x2,125 colores Ponelly</h3>
+                            <div class="price">$33.500</div>
+                        </div> 
+                         </div>
+
+                                     <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF3.webp', 'Llanta 27.5X2.0 Chaoyang Grano', '$38.700')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF3.webp" alt="Llanta 27.5X2.0 Chaoyang Grano">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta 27.5X2.0 Chaoyang Grano</h3>
+                            <div class="price">$38.700</div>
+                        </div> 
+                         </div>
+
+                                 <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF3.webp', 'Llanta 29X2.0 Chaoyang Grano', '$39.500')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF3.webp" alt="Llanta 29X2.0 Chaoyang Grano">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta 29X2.0 Chaoyang Grano</h3>
+                            <div class="price">$39.500</div>
+                        </div> 
+                         </div>
+
+
+
+                              <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF7.webp', 'Llanta BMX 20 X 2.125 ORBIT KNONBY', '$35.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF7.webp" alt="Llanta BMX 20 X 2.125 ORBIT KNONBY">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta BMX 20 X 2.125 ORBIT KNONBY</h3>
+                            <div class="price">$35.000</div>
+                        </div> 
+                         </div>
+
+
+
+                               <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF6.webp', 'Llanta BMX 20X1,95 KYLIN Pistera', '$28.500')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF6.webp" alt="Llanta BMX 20X1,95 KYLIN Pistera">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta BMX 20X1,95 KYLIN Pistera</h3>
+                            <div class="price">$28.500</div>
+                        </div> 
+                         </div>
+
+
+
+                         
+                               <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF8.webp', 'Llanta BMX 20X2,125 FLIP Pistera', '$28.500')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF8.webp" alt="Llanta BMX 20X2,125 FLIP Pistera">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta BMX 20X2,125 FLIP Pistera</h3>
+                            <div class="price">$28.500</div>
+                        </div> 
+                         </div>
+
+
+                             <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF9.webp', 'Llanta BMX 20X2,40 KYLIN Taco', '$32.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF9.webp" alt="Llanta BMX 20X2,40 KYLIN Taco">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta BMX 20X2,40 KYLIN Taco</h3>
+                            <div class="price">$32.000</div>
+                        </div> 
+                         </div>
+
+                                        <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF11.webp', 'Llanta BMX 20X2.125 KYLIN Taco', '$29.500')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF11.webp" alt="Llanta BMX 20X2.125 KYLIN Taco">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta BMX 20X2.125 KYLIN Taco</h3>
+                            <div class="price">$29.500</div>
+                        </div> 
+                         </div>
+
+                                        <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF10.webp', 'Llanta infantil 12-1/2X2-1/4 Flip', '$18.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF10.webp" alt="Llanta infantil 12-1/2X2-1/4 Flip">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta infantil 12-1/2X2-1/4 Flip</h3>
+                            <div class="price">$18.000</div>
+                        </div> 
+                         </div>
+
+          <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF12.webp', 'Llanta MTB 16X2,125 Freestyle BMXER Chaoyang', '$36.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF12.webp" alt="Llanta MTB 16X2,125 Freestyle BMXER Chaoyang">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta MTB 16X2,125 Freestyle BMXER Chaoyang</h3>
+                            <div class="price">$36.000</div>
+                        </div> 
+                         </div>
+
+
+                         
+          <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF3.webp', 'Llanta MTB 24X1,95 VICTORY CHAOYANG', '$33.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF3.webp" alt="Llanta MTB 24X1,95 VICTORY CHAOYANG">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta MTB 24X1,95 VICTORY CHAOYANG</h3>
+                            <div class="price">$33.000</div>
+                        </div> 
+                         </div>
+
+                                   <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF14.webp', 'Llanta MTB 24X2,125 FLIP', '$28.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF14.webp" alt="Llanta MTB 24X2,125 FLIP">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta MTB 24X2,125 FLIP</h3>
+                            <div class="price">$28.000</div>
+                        </div> 
+                         </div>
+
+                             <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF13.webp', 'Llanta MTB 26X1,95 VICTORY CHAOYANG', '$33.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF13.webp" alt="Llanta MTB 26X1,95 VICTORY CHAOYANG">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta MTB 26X1,95 VICTORY CHAOYANG</h3>
+                            <div class="price">$33.000</div>
+                        </div> 
+                         </div>
+
+                               <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF14.webp', 'Llanta MTB 26X2,125 FLIP', '$28.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF14.webp" alt="Llanta MTB 26X2,125 FLIP">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta MTB 26X2,125 FLIP</h3>
+                            <div class="price">$28.000</div>
+                        </div> 
+                         </div>
+
+                                   <div class="vehicle-card" onclick="openCatalogoModal('./LLANTASR/FF15.webp', 'Llanta RUTA 700X28 Attack Pard CHAOYANG', '$38.000')">
+                        <div class="vehicle-image">
+                            <img src="./LLANTASR/FF15.webp" alt="Llanta RUTA 700X28 Attack Pard CHAOYANG">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Llanta RUTA 700X28 Attack Pard CHAOYANG</h3>
+                            <div class="price">$38.000</div>
+                        </div> 
+                         </div>
+
+
+                                   <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Mangos</h2>
+</div>
+        </div>
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./maangos/m4.webp" alt="Mangos MTB 90MM Caucho Colores" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Mangos MTB 90MM Caucho Colores</h3>
+                            <div class="price">$10.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Mangos MTB 90MM Caucho Colores',
+                                '$10.000',
+                                'Mangos MTB 90MM Caucho Colores',
+                                [],
+                                [
+{name: 'Rojo', image: './maangos/m7.webp', swatch: '#FF0000'},
+{name: 'Azul', image: './maangos/m4.webp', swatch: '#0000FF'},
+{name: 'Verde', image: './maangos/m2.webp', swatch: '#008000'},
+{name: 'Morado', image: './maangos/m5.webp', swatch: '#800080'},
+{name: 'Rosa', image: './maangos/m3.webp', swatch: '#FFC0CB'},
+{name: 'Amarillo', image: './maangos/m6.webp', swatch: '#FFFF00'},
+{name: 'Naranja', image: './maangos/m1.webp', swatch: '#FFA500'},
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./maangos/m14.webp" alt="Mangos MTB LOCK ON 130MM Gorila Caucho Colores" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Mangos MTB LOCK ON 130MM Gorila Caucho Colores</h3>
+                            <div class="price">$16.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Mangos MTB LOCK ON 130MM Gorila Caucho Colores',
+                                '$16.000',
+                                'Mangos MTB LOCK ON 130MM Gorila Caucho Colores',
+                                [],
+                                [
+{name: 'Rojo Neón', image: './maangos/m14.webp', swatch: '#FF073A'},
+{name: 'Verde Neón', image: './maangos/m12.webp', swatch: '#39FF14'},
+{name: 'Naranja Neón', image: './maangos/m13.webp', swatch: '#FF5F1F'},
+{name: 'Azul Neón', image: './maangos/m9.webp', swatch: '#1F51FF'},
+{name: 'Morado Neón', image: './maangos/m10.webp', swatch: '#9D00FF'},
+{name: 'Rosa Neón', image: './maangos/m11.webp', swatch: '#FF10F0'},
+{name: 'Negro', image: './maangos/m8.webp', swatch: '#000000'},
+
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+                                   <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Pacha</h2>
+</div>
+        </div>
+
+       <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p1 (1).webp', 'Pacha Cassette CS-HG50 8-S Claris 8 Vel SHIMANO', '$112.000')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p1 (1).webp" alt="Pacha Cassette CS-HG50 8-S Claris 8 Vel SHIMANO">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha Cassette CS-HG50 8-S Claris 8 Vel SHIMANO</h3>
+                            <div class="price">$112.000</div>
+                        </div> 
+                         </div>
+       <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p7.webp', 'Pacha 6 Vel MF-TZ500-6 14-28T SHIMANO', '$51.500')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p7.webp" alt="Pacha 6 Vel MF-TZ500-6 14-28T SHIMANO">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha 6 Vel MF-TZ500-6 14-28T SHIMANO</h3>
+                            <div class="price">$51.500</div>
+                        </div> 
+                         </div> 
+                               <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p6.webp', 'Pacha 7 Vel MF-TZ500-7 14-28T SHIMANO', '$54.000')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p6.webp" alt="Pacha 7 Vel MF-TZ500-7 14-28T SHIMANO">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha 7 Vel MF-TZ500-7 14-28T SHIMANO</h3>
+                            <div class="price">$54.000</div>
+                        </div> 
+                         </div> 
+
+        <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p5.webp', 'Pacha 7 Vel MF-TZ500-7 14-28T SHIMANO con protector', '$58.000')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p5.webp" alt="Pacha 7 Vel MF-TZ500-7 14-28T SHIMANO con protector">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha 7 Vel MF-TZ500-7 14-28T SHIMANO con protector</h3>
+                            <div class="price">$58.000</div>
+                        </div> 
+                         </div> 
+
+  <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p4.webp', 'Pacha Cassette 7 Vel 12-32T Shimano', '$52.000')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p4.webp" alt="Pacha Cassette 7 Vel 12-32T Shimano">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha Cassette 7 Vel 12-32T Shimano</h3>
+                            <div class="price">$52.000</div>
+                        </div> 
+                         </div> 
+
+
+
+
+
+                            
+                    
+
+                               <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p2.webp', 'Pacha Cassette CS-M4100-10 11-42T 10 Vel SHIMANO', '$210.000')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p2.webp" alt="Pacha Cassette CS-M4100-10 11-42T 10 Vel SHIMANO">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha Cassette CS-M4100-10 11-42T 10 Vel SHIMANO</h3>
+                            <div class="price">$210.000</div>
+                        </div> 
+                         </div>
+
+     <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p3.webp', 'Pacha Cassette GW RUTA 10 Vel 11/32T HR 10-32', '$95.000')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p3.webp" alt="Pacha Cassette GW RUTA 10 Vel 11/32T HR 10-32">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha Cassette GW RUTA 10 Vel 11/32T HR 10-32</h3>
+                            <div class="price">$95.000</div>
+                        </div> 
+                         </div>
+
+                             <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p8.webp', 'Pacha Cassette GW MTB 9 Vel 11-36T', '$70.000')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p8.webp" alt="Pacha Cassette GW MTB 9 Vel 11-36T">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha Cassette GW MTB 9 Vel 11-36T</h3>
+                            <div class="price">$70.000</div>
+                        </div> 
+                         </div>
+            <div class="vehicle-card" onclick="openCatalogoModal('./pacha/p9.webp', 'Pacha Cassette GW Ruta 8 Vel 11/28T HR8-28', '$65.500')">
+                        <div class="vehicle-image">
+                            <img src="./pacha/p9.webp" alt="Pacha Cassette GW Ruta 8 Vel 11/28T HR8-28">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Pacha Cassette GW Ruta 8 Vel 11/28T HR8-28</h3>
+                            <div class="price">$65.500</div>
+                        </div> 
+                         </div>
+
+
+
+                                    <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Pedales</h2>
+</div>
+        </div>
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./pedales/p5.webp" alt="Pedales BMX Plastico Colores Junior" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Pedales BMX Plastico Colores Junior</h3>
+                            <div class="price">$15.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Pedales BMX Plastico Colores Junior',
+                                '$15.000',
+                                'Pedales BMX Plastico Colores Junior',
+                                [],
+                                [
+{name: 'Azul', image: './pedales/p1.webp', swatch: '#0000FF'},
+{name: 'Amarillo', image: './pedales/p4.webp', swatch: '#FFFF00'},
+{name: 'Naranja', image: './pedales/p5.webp', swatch: '#FFA500'},
+{name: 'Verde', image: './pedales/p2.webp', swatch: '#008000'},
+{name: 'Morado', image: './pedales/p3.webp', swatch: '#800080'},
+{name: 'Gris', image: './pedales/p6.webp', swatch: '#808080'},
+
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+                    <div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./pedales/p8.webp" alt="Pedales BMX Plastico Colores Junior" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Pedales BMX Plastico Colores Junior</h3>
+                            <div class="price">$15.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Pedales BMX Plastico Colores Junior',
+                                '$15.000',
+                                'Pedales BMX Plastico Colores Junior',
+                                [],
+                                [
+
+{name: 'Morado', image: './pedales/p7 (1).webp', swatch: '#800080'},
+{name: 'Rosa Neón', image: './pedales/p8.webp', swatch: '#FF10F0'},
+
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                                                     <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Suspencion y Potencia </h2>
+</div>
+        </div>
+
+        
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./suspencion/s1.webp" alt="Potencia MTB Enduro 31,8X50MM Alumio Colores GW" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Potencia MTB Enduro 31,8X50MM Alumio Colores GW</h3>
+                            <div class="price">$48.500</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './frenor/f1.webp',
+                                'Potencia MTB Enduro 31,8X50MM Alumio Colores GW',
+                                '$48.500',
+                                'Potencia MTB Enduro 31,8X50MM Alumio Colores GW',
+                                [],
+                                [
+
+{name: 'Azul', image: './suspencion/s3.webp', swatch: '#0000FF'},
+{name: 'Rojo', image: './suspencion/s2.webp', swatch: '#FF0000'},
+{name: 'Negro', image: './suspencion/s1.webp', swatch: '#000000'},
+{name: 'Amarillo Metalizado', image: './suspencion/s4.webp', swatch: '#D4AF37'},
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+      <div class="vehicle-card" onclick="openCatalogoModal('./suspencion/s7.webp', 'Tenedor suspension 20 GW701 22.2 GW', '$57.000')">
+                        <div class="vehicle-image">
+                            <img src="./suspencion/s7.webp" alt="Tenedor suspension 20 GW701 22.2 GW">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Tenedor suspension 20 GW701 22.2 GW</h3>
+                            <div class="price">$57.000</div>
+                        </div> 
+              </div>
+                    <div class="vehicle-card" onclick="openCatalogoModal('./suspencion/s10.webp', 'Suspension 26  Acero GW', '$95.000')">
+                        <div class="vehicle-image">
+                            <img src="./suspencion/s10.webp" alt="Suspension 26  Acero GW">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Suspension 26  Acero GW</h3>
+                            <div class="price">$95.000</div>
+                        </div> 
+              </div>
+
+
+                                                                          <div class="section-title wide">
+    <div class="section-title wide">
+    <h2>Otros </h2>
+</div>
+        </div>
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./discos/d.webp" alt="Plato BMX biela enteriza 28T 1/8  acero GW" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Plato BMX biela enteriza 28T 1/8  acero GW</h3>
+                            <div class="price">$15.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './discos/d.webp',
+                                'Plato BMX biela enteriza 28T 1/8  acero GW',
+                                '$15.000',
+                                'Plato BMX biela enteriza 28T 1/8  acero GW',
+                                [],
+                                [
+{name: 'Rosa', image: './discos/d.webp', swatch: '#FFC0CB'},
+{name: 'Azul', image: './discos/d1.webp', swatch: '#0000FF'},
+{name: 'Celeste', image: './discos/d2.webp', swatch: '#87CEEB'},
+{name: 'Blanco', image: './discos/d3.webp', swatch: '#FFFFFF'},
+{name: 'Rojo', image: './discos/d4.webp', swatch: '#FF0000'},
+
+
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./discos/d5 (1).webp" alt="Plato BMX biela enteriza 28T 1/8  acero GW" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Plato BMX biela enteriza 28T 1/8  acero GW</h3>
+                            <div class="price">$15.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './discos/d5.webp',
+                                'Plato BMX biela enteriza 28T 1/8  acero GW',
+                                '$15.000',
+                                'Plato BMX biela enteriza 28T 1/8  acero GW',
+                                [],
+                                [
+{name: 'Rojo', image: './discos/d5 (1).webp', swatch: '#FF0000'},
+{name: 'Blanco', image: './discos/d5 (2).webp', swatch: '#FFFFFF'},
+{name: 'Verde', image: './discos/d8.webp', swatch: '#008000'},
+{name: 'Celeste', image: './discos/d7.webp', swatch: '#87CEEB'},
+{name: 'Rosa', image: './discos/d9.webp', swatch: '#FFC0CB'},
+
+
+
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./discos/t2.webp" alt="Timbre 53MM (I LOVE MY BIKE) Colores" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Timbre 53MM (I LOVE MY BIKE) Colores</h3>
+                            <div class="price">$15.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './discos/t2.webp',
+                                'Timbre 53MM (I LOVE MY BIKE) Colores',
+                                '$15.000',
+                                'Timbre 53MM (I LOVE MY BIKE) Colores',
+                                [],
+                                    [
+    {name: 'Rojo', image: './discos/t1.webp', swatch: '#FF0000'},
+    {name: 'Blanco', image: './discos/t5.webp', swatch: '#FFFFFF'},
+    {name: 'Morado', image: './discos/t3.webp', swatch: '#800080'},
+    {name: 'Rosa', image: './discos/t2.webp', swatch: '#FFC0CB'},
+    {name: 'Azul', image: './discos/t4.webp', swatch: '#0000FF'},
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./discos/j2.webp" alt="Protector Facial Reflective CREST" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Protector Facial Reflective CREST</h3>
+                            <div class="price">$18.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './discos/j2.webp',
+                                'Protector Facial Reflective CREST',
+                                '$18.000',
+                                'Protector Facial Reflective CREST',
+                                [],
+                                    [
+
+  {name: 'Negro', image: './discos/j2.webp', swatch: '#000000'},
+    {name: 'Azul', image: './discos/j1.webp', swatch: '#0000FF'},
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./discos/j3.webp" alt="Protector Facial Reflective GLOW" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Protector Facial Reflective CREST</h3>
+                            <div class="price">$18.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './discos/j3.webp',
+                                'Protector Facial Reflective GLOW',
+                                '$18.000',
+                                'Protector Facial Reflective GLOW',
+                                [],
+                                    [
+
+  {name: 'Negro', image: './discos/j3.webp', swatch: '#000000'},
+    {name: 'Azul', image: './discos/j4.webp', swatch: '#556B2F'},
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+
+<div class="vehicle-card">
+                        <div class="vehicle-image">
+                            <img src="./otros/a10.webp" alt="Juego de bielas cuadrante 1 Vel 1/2X1/8 44T 165MM Acero cromada" onclick="event.stopPropagation();">
+                        </div>
+                        <div class="vehicle-info">
+                            <h3>Juego de bielas cuadrante 1 Vel 1/2X1/8 44T 165MM Acero cromada</h3>
+                            <div class="price">$37.000</div>
+                         
+                   
+                            <button class="btn" style="margin-top: 15px; width: 100%;" onclick="event.stopPropagation(); openProductModal(
+                                './otros/a10.webp',
+                                'Juego de bielas cuadrante 1 Vel 1/2X1/8 44T 165MM Acero cromada',
+                                '$37.000',
+                                'Juego de bielas cuadrante 1 Vel 1/2X1/8 44T 165MM Acero cromada',
+                                [],
+                                    [
+
+  {name: 'Plateado', image: './otros/a10.webp', swatch: '#C0C0C0'},
+
+    {name: 'Azul', image: './otros/a9.webp', swatch: '#87CEEB'},
+
+
+                                ]
+                            )">Consultar</button>
+                        </div>
+                    </div>
+
+<div class="vehicle-card" onclick="openCatalogoModal('./otros/aa7.webp', 'Triplato en resina MTB con protector 3X7 VEL 28/38/48T', '$33.500')">
+                        <div class="vehicle-image">
+                            <img src="./otros/aa7.webp" alt="Triplato en resina MTB con protector 3X7 VEL 28/38/48T">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Triplato en resina MTB con protector 3X7 VEL 28/38/48T</h3>
+                            <div class="price">33.500</div>
+                        </div> 
+              </div>
+
+
+ <div class="vehicle-card" onclick="openCatalogoModal('./otros/a6.webp', 'Tornillo de potencia hexagonal cono/cuña/165MM', '$4.500')">
+                        <div class="vehicle-image">
+                            <img src="./otros/a6.webp" alt="Tornillo de potencia hexagonal cono/cuña/165MM">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Tornillo de potencia hexagonal cono/cuña/165MM</h3>
+                            <div class="price">$4.500</div>
+                        </div> 
+              </div>
+
+ <div class="vehicle-card" onclick="openCatalogoModal('./otros/a4.webp', 'Paral trasero ajustable aluminio negro GW', '$23.000')">
+                        <div class="vehicle-image">
+                            <img src="./otros/a4.webp" alt="Paral trasero ajustable aluminio negro GW">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Paral trasero ajustable aluminio negro GW</h3>
+                            <div class="price">$23.000</div>
+                        </div> 
+              </div>
+
+               <div class="vehicle-card" onclick="openCatalogoModal('./otros/a5.webp', 'Biela enteriza Americana 170MM CW-10 Acero negra', '$32.000')">
+                        <div class="vehicle-image">
+                            <img src="./otros/a5.webp" alt="Biela enteriza Americana 170MM CW-10 Acero negra">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Biela enteriza Americana 170MM CW-10 Acero negra</h3>
+                            <div class="price">$32.000</div>
+                        </div> 
+              </div>
+
+                             <div class="vehicle-card" onclick="openCatalogoModal('./otros/a2.webp', 'Dropout para marco tourmalet gw ruta', '$27.000')">
+                        <div class="vehicle-image">
+                            <img src="./otros/a2.webp" alt="Dropout para marco tourmalet gw ruta">
+                        </div>
+                        <div class="vehicle-info">
+                         <h3>Dropout para marco tourmalet gw ruta</h3>
+                            <div class="price">$27.000</div>
+                        </div> 
+              </div>
+
         </section>
     </div>
 
@@ -4122,26 +5179,29 @@ Elegancia y diversión en cada pedaleo.</p>
                             </ul>
                         </div>
                     </div>
+<!--
+<div class="services-info">
+    <h3>¿Por qué elegir nuestros servicios?</h3>
+    <div class="info-grid">
+       
+        <div class="info-item">
+            <h5>🔧 Herramientas de Calidad</h5>
+            <p>Equipamiento profesional y herramientas especializadas para cada trabajo.</p>
+        </div>
+        <div class="info-item">
+            <h5>⏱️ Servicio Rápido</h5>
+            <p>Trabajos eficientes sin comprometer la calidad. Entregas puntuales.</p>
+        </div>
+        <div class="info-item">
+            <h5>💯 Garantía Completa</h5>
+            <p>Todos nuestros servicios incluyen garantía de satisfacción.</p>
+        </div>
+    </div>
+</div>
+-->
 
-                    <div class="services-info">
-                        <h3>¿Por qué elegir nuestros servicios?</h3>
-                        <div class="info-grid">
-                           
-                            <div class="info-item">
-                                <h5>🔧 Herramientas de Calidad</h5>
-                                <p>Equipamiento profesional y herramientas especializadas para cada trabajo.</p>
-                            </div>
-                            <div class="info-item">
-                                <h5>⏱️ Servicio Rápido</h5>
-                                <p>Trabajos eficientes sin comprometer la calidad. Entregas puntuales.</p>
-                            </div>
-                            <div class="info-item">
-                                <h5>💯 Garantía Completa</h5>
-                                <p>Todos nuestros servicios incluyen garantía de satisfacción.</p>
-                            </div>
-                        </div>
-                    </div>
 
+    
                     <div class="cta-services">
                         <h3>¿Necesitas nuestros servicios?</h3>
                         <p>Contáctanos y obtén una consulta gratuita. Somos los mejores en Yopal.</p>
@@ -4190,10 +5250,9 @@ Elegancia y diversión en cada pedaleo.</p>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-             
             <div class="copyright">
                 <p>&copy; 2025 BicycleParts. Todos los derechos reservados.</p>
             </div>
@@ -4498,23 +5557,113 @@ Elegancia y diversión en cada pedaleo.</p>
         // Función para filtrar catálogo por búsqueda
         function filterCatalog() {
             const input = document.getElementById('catalogoSearch');
-            const filter = input.value.toUpperCase();
-            const catalogoGrid = document.querySelector('.catalogo-grid');
-            const cards = catalogoGrid.querySelectorAll('.vehicle-card');
+            if(!input) return;
+            const query = (input.value || '').trim().toUpperCase();
+            const catalogoGrid = document.querySelector('.catalogo-grid') || document.querySelector('.vehicles-grid') || document.querySelector('#catalogo .vehicles-grid');
+            if(!catalogoGrid) return;
+            const cards = Array.from(catalogoGrid.querySelectorAll('.vehicle-card'));
 
-            cards.forEach(card => {
-                const h3 = card.querySelector('h3');
-                const p = card.querySelector('p');
-                const textH3 = h3 ? h3.textContent.toUpperCase() : '';
-                const textP = p ? p.textContent.toUpperCase() : '';
-                
-                if (textH3.includes(filter) || textP.includes(filter)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
+            // reset any previous inline state (display/opacity/z-index/highlight)
+            cards.forEach(c => {
+                c.style.display = '';
+                c.style.opacity = '';
+                c.style.zIndex = '';
+                c.classList.remove('highlight');
+            });
+
+            // capture original order once (assign to any new cards too)
+            let maxIndex = -1;
+            cards.forEach(c => {
+                if (typeof c.dataset.originalIndex !== 'undefined') {
+                    maxIndex = Math.max(maxIndex, parseInt(c.dataset.originalIndex) || 0);
                 }
             });
+            cards.forEach((c, i) => {
+                if (typeof c.dataset.originalIndex === 'undefined') {
+                    maxIndex++;
+                    c.dataset.originalIndex = maxIndex;
+                }
+            });
+
+            // empty query -> restore all and original order (reset opacity)
+            if (!query) {
+                cards.forEach(card => {
+                    card.style.display = '';
+                    card.style.opacity = '';
+                });
+
+                // restore original order
+                const originalChildren = Array.from(catalogoGrid.children);
+                const fragment = document.createDocumentFragment();
+                originalChildren.forEach(child => {
+                    if (!child.classList || !child.classList.contains('vehicle-card')) {
+                        fragment.appendChild(child);
+                    }
+                });
+                cards.sort((a,b) => (parseInt(a.dataset.originalIndex) || 0) - (parseInt(b.dataset.originalIndex) || 0)).forEach(c => fragment.appendChild(c));
+                catalogoGrid.appendChild(fragment);
+                // scroll to top of catalog for clarity
+                catalogoGrid.scrollIntoView({behavior: 'smooth', block: 'start'});
+                return;
+            }
+
+            const matches = [];
+            const nonMatches = [];
+
+            cards.forEach(card => {
+                const text = (card.textContent || '').replace(/\s+/g,' ').toUpperCase();
+                if (text.includes(query)) {
+                    card.style.display = '';
+                    card.style.opacity = '1';
+                    matches.push(card);
+                } else {
+                    // keep non-matching items visible but de-emphasized
+                    card.style.display = '';
+                    card.style.opacity = '0.35';
+                    nonMatches.push(card);
+                }
+            });
+
+            // rebuild grid: keep non-card nodes (titles) then append matches first
+            const originalChildren = Array.from(catalogoGrid.children);
+            const fragment = document.createDocumentFragment();
+            originalChildren.forEach(child => {
+                if (!child.classList || !child.classList.contains('vehicle-card')) {
+                    fragment.appendChild(child);
+                }
+            });
+            matches.forEach(m => fragment.appendChild(m));
+            nonMatches.forEach(nm => fragment.appendChild(nm));
+            catalogoGrid.appendChild(fragment);
+
+            // If there is at least one match, bring the first into view and highlight it briefly
+            if (matches.length) {
+                const first = matches[0];
+                try {
+                    first.classList.add('highlight');
+                    first.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    setTimeout(() => first.classList.remove('highlight'), 1200);
+                } catch (e) { /* ignore scroll errors */ }
+            }
         }
+
+            // Scroll to first visible/high-opacity match and highlight it (can be triggered by Enter or button)
+            function goToFirstMatch() {
+                const catalogoGrid = document.querySelector('.catalogo-grid') || document.querySelector('.vehicles-grid') || document.querySelector('#catalogo .vehicles-grid');
+                if(!catalogoGrid) return;
+                const cards = Array.from(catalogoGrid.querySelectorAll('.vehicle-card'));
+                for (const c of cards) {
+                    const style = window.getComputedStyle(c);
+                    if (style.display !== 'none' && parseFloat(style.opacity || '1') > 0.6) {
+                        try {
+                            c.classList.add('highlight');
+                            c.scrollIntoView({behavior: 'smooth', block: 'start'});
+                            setTimeout(() => c.classList.remove('highlight'), 1200);
+                        } catch (e) {}
+                        break;
+                    }
+                }
+            }
 
         // Cerrar modal al hacer clic fuera
         (function() {
@@ -4555,6 +5704,7 @@ Elegancia y diversión en cada pedaleo.</p>
                 './imgCATALOGO/c13.webp',
                 './imgCATALOGO/c14.webp'
             ],
+         
             'Botella  550 ML': [
                 './imgCATALOGO/c16.webp',
                 './imgCATALOGO/c17.webp',
@@ -4583,7 +5733,7 @@ Elegancia y diversión en cada pedaleo.</p>
                 './imgCATALOGO/c24.webp'
             ],
             'Desviador trasero MTB 6/7 Vel H50 Negro Millenium': [
-                './imgCATALOGO/c26.jpeg'
+                './imgCATALOGO/c26.webp'
             ],
             'Desviador trasero RD-R3000 GS Sora 9 V': [
                 './imgCATALOGO/c27.webp'
@@ -4635,8 +5785,28 @@ Elegancia y diversión en cada pedaleo.</p>
         'Sillin BMX cremallera junior 12P 140MM Wild Rider Colores GW rojo': [
                 './sillones/x7.webp',
                 './sillones/x8.webp',
-        ]
+        ] ,  'Juego de Freno V-Brake plástico colores Millenium': [
+                './frenor/f2.webp',
+                './frenor/f1.webp',
+                './frenor/f5.webp',
+                './frenor/f3.webp',
+                './frenor/f4.webp',
+                './frenor/f6.webp'
+            ],
+'Tenedor suspension 20 GW701 22.2 GW'
+: [
+                './suspencion/s5.webp',
+                './suspencion/s6.webp',
+                './suspencion/s7.webp'
+            ],
 
+     'Suspension 26  Acero GW':[
+
+                './suspencion/s10.webp',
+                './suspencion/s9.webp',
+                './suspencion/s8.webp',
+                
+           ],
 
         };
 
@@ -5052,7 +6222,7 @@ Elegancia y diversión en cada pedaleo.</p>
             }
         }, {passive: true});
 
-        container.addEventListener('touchmove', (e)=>{
+        container.addEventListener('touchmove', (e)=>{  
             if(pinch && e.touches.length === 2){
                 const currentDistance = Math.hypot(
                     e.touches[0].clientX - e.touches[1].clientX,
@@ -5097,6 +6267,57 @@ Elegancia y diversión en cada pedaleo.</p>
         });
 
     })();
+    </script>
+    <script>
+        // Set active language button glow based on current page
+        document.addEventListener('DOMContentLoaded', function(){   
+            try {
+                const path = window.location.pathname.toLowerCase();
+                const en = document.getElementById('lang-en');
+                const es = document.getElementById('lang-es');
+                if(!en && !es) return;
+                if (path.includes('ingles.html')) {
+                    en && en.classList.add('active');
+                    es && es.classList.remove('active');
+                } else {
+                    es && es.classList.add('active');
+                    en && en.classList.remove('active');
+                }
+            } catch (e) { /* silent */ }
+        });
+        // Capture original catalog order on load so searches can always restore it
+        document.addEventListener('DOMContentLoaded', function(){
+            try {
+                const catalogoGrid = document.querySelector('.catalogo-grid') || document.querySelector('.vehicles-grid');
+                if (!catalogoGrid) return;
+                const cards = Array.from(catalogoGrid.querySelectorAll('.vehicle-card'));
+                cards.forEach((c, i) => c.dataset.originalIndex = i);
+            } catch (e) { /* ignore */ }
+        });
+        // Attach Enter key listener and Go button after DOM ready
+        document.addEventListener('DOMContentLoaded', function(){
+            try {
+                const input = document.getElementById('catalogoSearch');
+                const goBtn = document.getElementById('catalogoGoBtn');
+                if (input) {
+                    input.addEventListener('keydown', function(e){
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            filterCatalog();
+                            // small timeout to allow layout to update before scrolling
+                            setTimeout(() => goToFirstMatch(), 100);
+                        }
+                    });
+                }
+                if (goBtn) {
+                    goBtn.addEventListener('click', function(e){
+                        e.preventDefault();
+                        filterCatalog();
+                        setTimeout(() => goToFirstMatch(), 100);
+                    });
+                }
+            } catch (e) { /* ignore */ }
+        });
     </script>
 </body>
 </html>
